@@ -332,8 +332,10 @@ function Hero() {
           scale,
           position: "absolute",
           inset: 0,
-          background:
-            "linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), #0a0a0a)",
+          backgroundImage: "url(/hero-bg.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "blur(2px) brightness(0.25)",
         }}
       />
       <div
@@ -341,7 +343,15 @@ function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse at center, rgba(160,136,77,0.08) 0%, transparent 70%)",
+            "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.5), #0a0a0a)",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "radial-gradient(ellipse at center, rgba(160,136,77,0.06) 0%, transparent 70%)",
         }}
       />
 
@@ -1296,6 +1306,177 @@ function Footer() {
   );
 }
 
+function ParallaxDivider() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
+
+  return (
+    <section
+      ref={ref}
+      style={{
+        position: "relative",
+        height: 400,
+        overflow: "hidden",
+      }}
+    >
+      <motion.div
+        style={{
+          y,
+          position: "absolute",
+          inset: "-20% 0",
+          backgroundImage: "url(/parallax-bg.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(to bottom, #0a0a0a, rgba(0,0,0,0.4), rgba(0,0,0,0.4), #f7f6f3)",
+        }}
+      />
+      <div
+        style={{
+          position: "relative",
+          zIndex: 10,
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Reveal>
+          <p
+            style={{
+              color: "rgba(255,255,255,0.7)",
+              fontSize: "clamp(18px, 3vw, 28px)",
+              fontWeight: 300,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              textAlign: "center",
+              padding: "0 24px",
+            }}
+          >
+            Donde el esfuerzo se convierte en{" "}
+            <span style={{ color: GOLD, fontWeight: 600 }}>resultados</span>
+          </p>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+const GYM_IMAGES = [
+  { src: "/gym-4.jpg", alt: "Entrada Zen Fitness Club" },
+  { src: "/gym-1.jpg", alt: "Sala de musculación" },
+  { src: "/gym-2.jpg", alt: "Máquinas de entrenamiento" },
+  { src: "/gym-3.jpg", alt: "Zona de cardio" },
+  { src: "/gym-5.jpg", alt: "Zona de peso libre" },
+];
+
+function Gallery() {
+  return (
+    <section
+      id="instalaciones"
+      style={{ background: "#0a0a0a", color: "#fff", padding: "96px 24px" }}
+    >
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <p
+              style={{
+                color: `${GOLD_LIGHT}cc`,
+                fontSize: 13,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                marginBottom: 16,
+              }}
+            >
+              Nuestras instalaciones
+            </p>
+            <h2
+              style={{
+                fontSize: "clamp(28px, 5vw, 48px)",
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Conoce{" "}
+              <span style={{ color: GOLD }}>nuestro espacio</span>
+            </h2>
+          </div>
+        </Reveal>
+
+        <div className="gallery-grid">
+          {GYM_IMAGES.map((img, i) => (
+            <Reveal
+              key={img.src}
+              delay={i * 0.08}
+              className={i === 0 ? "gallery-featured" : ""}
+            >
+              <div
+                style={{
+                  position: "relative",
+                  overflow: "hidden",
+                  borderRadius: 12,
+                  height: "100%",
+                  minHeight: i === 0 ? 400 : 250,
+                }}
+              >
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    transition: "transform 0.6s ease",
+                  }}
+                  onMouseOver={(e) =>
+                    (e.currentTarget.style.transform = "scale(1.05)")
+                  }
+                  onMouseOut={(e) =>
+                    (e.currentTarget.style.transform = "scale(1)")
+                  }
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background:
+                      "linear-gradient(to top, rgba(0,0,0,0.5), transparent 50%)",
+                    pointerEvents: "none",
+                  }}
+                />
+                <span
+                  style={{
+                    position: "absolute",
+                    bottom: 16,
+                    left: 16,
+                    color: "rgba(255,255,255,0.7)",
+                    fontSize: 13,
+                    fontWeight: 500,
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  {img.alt}
+                </span>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function App() {
   return (
     <div style={{ minHeight: "100vh", background: "#0a0a0a" }}>
@@ -1303,7 +1484,9 @@ export default function App() {
       <Hero />
       <Services />
       <About />
+      <Gallery />
       <Schedule />
+      <ParallaxDivider />
       <Reviews />
       <CTA />
       <Contact />
