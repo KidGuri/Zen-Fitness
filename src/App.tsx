@@ -13,8 +13,6 @@ import {
   Shield,
   Users,
   Music,
-  Menu,
-  X,
 } from "lucide-react";
 
 function Instagram({
@@ -348,20 +346,23 @@ function Reveal({
 }
 
 function CustomCursor() {
-  const [pos, setPos] = useState({ x: -100, y: -100 });
-  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-    if (isTouch) return;
+    if (isTouch || !ref.current) return;
 
-    setVisible(true);
+    ref.current.style.display = "block";
 
     const onMove = (e: MouseEvent) => {
-      setPos({ x: e.clientX, y: e.clientY });
+      if (ref.current) {
+        ref.current.style.transform = `translate(${e.clientX - 6}px, ${e.clientY - 6}px)`;
+      }
     };
 
-    const onLeave = () => setPos({ x: -100, y: -100 });
+    const onLeave = () => {
+      if (ref.current) ref.current.style.transform = "translate(-100px, -100px)";
+    };
 
     window.addEventListener("mousemove", onMove);
     document.addEventListener("mouseleave", onLeave);
@@ -371,20 +372,20 @@ function CustomCursor() {
     };
   }, []);
 
-  if (!visible) return null;
-
   return (
     <div
+      ref={ref}
       style={{
         position: "fixed",
-        top: pos.y - 6,
-        left: pos.x - 6,
+        top: 0,
+        left: 0,
         width: 12,
         height: 12,
         background: GOLD,
         pointerEvents: "none",
         zIndex: 9999,
-        transition: "top 0.05s linear, left 0.05s linear",
+        display: "none",
+        willChange: "transform",
       }}
     />
   );
@@ -393,37 +394,55 @@ function CustomCursor() {
 function LanguageToggle({
   lang,
   setLang,
-  style,
 }: {
   lang: Lang;
   setLang: (l: Lang) => void;
-  style?: React.CSSProperties;
 }) {
   return (
-    <button
-      onClick={() => setLang(lang === "es" ? "en" : "es")}
+    <div
       style={{
-        background: "none",
+        display: "flex",
+        alignItems: "center",
         border: `1px solid rgba(160,136,77,0.4)`,
-        color: GOLD,
+        borderRadius: 4,
+        overflow: "hidden",
         fontSize: 11,
         fontWeight: 600,
-        letterSpacing: "0.1em",
-        padding: "6px 12px",
-        textTransform: "uppercase",
-        cursor: "pointer",
-        transition: "all 0.3s",
-        ...style,
+        letterSpacing: "0.08em",
       }}
     >
-      {lang === "es" ? "EN" : "ES"}
-    </button>
+      <button
+        onClick={() => setLang("es")}
+        style={{
+          background: lang === "es" ? GOLD : "transparent",
+          color: lang === "es" ? "#000" : "rgba(255,255,255,0.4)",
+          border: "none",
+          padding: "6px 10px",
+          cursor: "pointer",
+          transition: "all 0.3s",
+        }}
+      >
+        ES
+      </button>
+      <button
+        onClick={() => setLang("en")}
+        style={{
+          background: lang === "en" ? GOLD : "transparent",
+          color: lang === "en" ? "#000" : "rgba(255,255,255,0.4)",
+          border: "none",
+          padding: "6px 10px",
+          cursor: "pointer",
+          transition: "all 0.3s",
+        }}
+      >
+        EN
+      </button>
+    </div>
   );
 }
 
 function Navbar({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; t: typeof translations.es }) {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -510,79 +529,10 @@ function Navbar({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; 
           </a>
         </div>
 
-        <div className="nav-mobile-btn" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div className="nav-mobile-btn" style={{ display: "flex", alignItems: "center" }}>
           <LanguageToggle lang={lang} setLang={setLang} />
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            style={{
-              background: "none",
-              border: "none",
-              color: "rgba(255,255,255,0.7)",
-              cursor: "pointer",
-              padding: 0,
-            }}
-          >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
       </div>
-
-      {menuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="nav-mobile-menu"
-          style={{
-            background: "rgba(0,0,0,0.95)",
-            backdropFilter: "blur(20px)",
-            borderBottom: `1px solid rgba(160,136,77,0.1)`,
-          }}
-        >
-          <div
-            style={{
-              padding: "24px",
-              display: "flex",
-              flexDirection: "column",
-              gap: 16,
-            }}
-          >
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  fontSize: 13,
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.6)",
-                  textDecoration: "none",
-                  padding: "8px 0",
-                }}
-              >
-                {l.label}
-              </a>
-            ))}
-            <a
-              href={`tel:${PHONE.replace(/\s/g, "")}`}
-              onClick={() => setMenuOpen(false)}
-              style={{
-                marginTop: 8,
-                padding: "12px 24px",
-                border: `1px solid rgba(160,136,77,0.4)`,
-                color: GOLD,
-                fontSize: 13,
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                textDecoration: "none",
-                textAlign: "center",
-              }}
-            >
-              {t.navCall}
-            </a>
-          </div>
-        </motion.div>
-      )}
     </nav>
   );
 }
@@ -646,6 +596,7 @@ function Hero({ t }: { t: typeof translations.es }) {
           padding: "0 20px",
           maxWidth: 900,
           width: "100%",
+          marginTop: "-5vh",
         }}
       >
         <motion.div
