@@ -487,7 +487,7 @@ function Navbar({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; 
         }}
       >
         <a href="#">
-          <img src="/logo.png" alt="Zen Fitness Club" style={{ height: 70 }} />
+          <img src="/logo.png" alt="Zen Fitness Club" style={{ height: 40 }} />
         </a>
 
         <div className="nav-desktop">
@@ -532,7 +532,7 @@ function Navbar({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; 
           </a>
         </div>
 
-        <div className="nav-mobile-btn" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div className="nav-mobile-btn">
           <LanguageToggle lang={lang} setLang={setLang} />
           <button
             onClick={() => setMenuOpen(!menuOpen)}
@@ -679,7 +679,7 @@ function Hero({ t }: { t: typeof translations.es }) {
           <img
             src="/logo.png"
             alt="Zen Fitness Club"
-            style={{ width: "min(700px, 85vw)", margin: "0 auto 32px" }}
+            style={{ width: "min(360px, 70vw)", margin: "0 auto 32px" }}
           />
         </motion.div>
 
