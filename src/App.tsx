@@ -13,6 +13,8 @@ import {
   Shield,
   Users,
   Music,
+  Menu,
+  X,
 } from "lucide-react";
 
 function Instagram({
@@ -443,6 +445,7 @@ function LanguageToggle({
 
 function Navbar({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; t: typeof translations.es }) {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -529,10 +532,79 @@ function Navbar({ lang, setLang, t }: { lang: Lang; setLang: (l: Lang) => void; 
           </a>
         </div>
 
-        <div className="nav-mobile-btn" style={{ display: "flex", alignItems: "center" }}>
+        <div className="nav-mobile-btn" style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <LanguageToggle lang={lang} setLang={setLang} />
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            style={{
+              background: "none",
+              border: "none",
+              color: "rgba(255,255,255,0.7)",
+              cursor: "pointer",
+              padding: 0,
+            }}
+          >
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
+
+      {menuOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="nav-mobile-menu"
+          style={{
+            background: "rgba(0,0,0,0.95)",
+            backdropFilter: "blur(20px)",
+            borderBottom: `1px solid rgba(160,136,77,0.1)`,
+          }}
+        >
+          <div
+            style={{
+              padding: "24px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 16,
+            }}
+          >
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  fontSize: 13,
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.6)",
+                  textDecoration: "none",
+                  padding: "8px 0",
+                }}
+              >
+                {l.label}
+              </a>
+            ))}
+            <a
+              href={`tel:${PHONE.replace(/\s/g, "")}`}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                marginTop: 8,
+                padding: "12px 24px",
+                border: `1px solid rgba(160,136,77,0.4)`,
+                color: GOLD,
+                fontSize: 13,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                textAlign: "center",
+              }}
+            >
+              {t.navCall}
+            </a>
+          </div>
+        </motion.div>
+      )}
     </nav>
   );
 }
