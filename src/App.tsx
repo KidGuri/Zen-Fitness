@@ -17,7 +17,13 @@ import {
   X,
 } from "lucide-react";
 
-function Instagram({ size = 24, className = "" }: { size?: number; className?: string }) {
+function Instagram({
+  size = 24,
+  className = "",
+}: {
+  size?: number;
+  className?: string;
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -46,6 +52,9 @@ const MAPS_URL =
 const INSTAGRAM = "https://www.instagram.com/zengymfitness/";
 const GOOGLE_REVIEWS =
   "https://search.google.com/local/reviews?placeid=ChIJx0Y8Q0jsYA0RhDxzZlYzjQI";
+
+const GOLD = "#a0884d";
+const GOLD_LIGHT = "#c4a96a";
 
 const HOURS = [
   { day: "Lunes a Viernes", time: "7:00 – 22:00" },
@@ -109,7 +118,7 @@ const REVIEWS = [
   },
 ];
 
-function RevealSection({
+function Reveal({
   children,
   className = "",
   delay = 0,
@@ -119,45 +128,13 @@ function RevealSection({
   delay?: number;
 }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
-        delay,
-      }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function RevealItem({
-  children,
-  className = "",
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-}) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
-        delay,
-      }}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay }}
       className={className}
     >
       {children}
@@ -185,30 +162,71 @@ function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-black/80 backdrop-blur-xl border-b border-[#a0884d]/10"
-          : "bg-transparent"
-      }`}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        transition: "all 0.5s",
+        background: scrolled ? "rgba(0,0,0,0.85)" : "transparent",
+        backdropFilter: scrolled ? "blur(20px)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(160,136,77,0.1)" : "none",
+      }}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
-        <a href="#" className="flex items-center gap-3">
-          <img src="/logo.png" alt="Zen Fitness Club" className="h-10" />
+      <div
+        style={{
+          maxWidth: 1280,
+          margin: "0 auto",
+          padding: "0 24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: 80,
+        }}
+      >
+        <a href="#">
+          <img src="/logo.png" alt="Zen Fitness Club" style={{ height: 40 }} />
         </a>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div
+          className="nav-desktop"
+        >
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-sm tracking-[0.15em] uppercase text-white/60 hover:text-[#c4a96a] transition-colors duration-300"
+              style={{
+                fontSize: 13,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                color: "rgba(255,255,255,0.6)",
+                textDecoration: "none",
+                transition: "color 0.3s",
+              }}
+              onMouseOver={(e) =>
+                (e.currentTarget.style.color = GOLD_LIGHT)
+              }
+              onMouseOut={(e) =>
+                (e.currentTarget.style.color = "rgba(255,255,255,0.6)")
+              }
             >
               {l.label}
             </a>
           ))}
           <a
             href={`tel:${PHONE.replace(/\s/g, "")}`}
-            className="ml-4 px-6 py-2.5 border border-[#a0884d]/40 text-[#a0884d] text-sm tracking-[0.15em] uppercase hover:bg-[#a0884d]/10 transition-all duration-300 rounded-sm"
+            style={{
+              marginLeft: 16,
+              padding: "10px 24px",
+              border: `1px solid rgba(160,136,77,0.4)`,
+              color: GOLD,
+              fontSize: 13,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              transition: "all 0.3s",
+            }}
           >
             Llámanos
           </a>
@@ -216,7 +234,13 @@ function Navbar() {
 
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden text-white/70 hover:text-[#c4a96a] transition-colors"
+          className="nav-mobile-btn"
+          style={{
+            background: "none",
+            border: "none",
+            color: "rgba(255,255,255,0.7)",
+            cursor: "pointer",
+          }}
         >
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -226,22 +250,51 @@ function Navbar() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden bg-black/95 backdrop-blur-xl border-b border-[#a0884d]/10"
+          className="nav-mobile-menu"
+          style={{
+            background: "rgba(0,0,0,0.95)",
+            backdropFilter: "blur(20px)",
+            borderBottom: `1px solid rgba(160,136,77,0.1)`,
+          }}
         >
-          <div className="px-6 py-6 flex flex-col gap-4">
+          <div
+            style={{
+              padding: "24px",
+              display: "flex",
+              flexDirection: "column",
+              gap: 16,
+            }}
+          >
             {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
                 onClick={() => setMenuOpen(false)}
-                className="text-sm tracking-[0.15em] uppercase text-white/60 hover:text-[#c4a96a] transition-colors py-2"
+                style={{
+                  fontSize: 13,
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.6)",
+                  textDecoration: "none",
+                  padding: "8px 0",
+                }}
               >
                 {l.label}
               </a>
             ))}
             <a
               href={`tel:${PHONE.replace(/\s/g, "")}`}
-              className="mt-2 px-6 py-3 border border-[#a0884d]/40 text-[#a0884d] text-sm tracking-[0.15em] uppercase hover:bg-[#a0884d]/10 transition-all text-center rounded-sm"
+              style={{
+                marginTop: 8,
+                padding: "12px 24px",
+                border: `1px solid rgba(160,136,77,0.4)`,
+                color: GOLD,
+                fontSize: 13,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                textAlign: "center",
+              }}
             >
               Llámanos
             </a>
@@ -264,17 +317,44 @@ function Hero() {
   return (
     <section
       ref={ref}
-      className="relative h-screen flex items-center justify-center overflow-hidden"
+      style={{
+        position: "relative",
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+        background: "#0a0a0a",
+      }}
     >
       <motion.div
-        style={{ scale }}
-        className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-[#0a0a0a]"
+        style={{
+          scale,
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6), #0a0a0a)",
+        }}
       />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(160,136,77,0.08)_0%,transparent_70%)]" />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "radial-gradient(ellipse at center, rgba(160,136,77,0.08) 0%, transparent 70%)",
+        }}
+      />
 
       <motion.div
-        style={{ opacity }}
-        className="relative z-10 text-center px-6 max-w-4xl"
+        style={{
+          opacity,
+          position: "relative",
+          zIndex: 10,
+          textAlign: "center",
+          padding: "0 20px",
+          maxWidth: 900,
+          width: "100%",
+        }}
       >
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -284,7 +364,7 @@ function Hero() {
           <img
             src="/logo.png"
             alt="Zen Fitness Club"
-            className="w-48 sm:w-64 md:w-72 mx-auto mb-8"
+            style={{ width: "min(280px, 60vw)", margin: "0 auto 32px" }}
           />
         </motion.div>
 
@@ -292,7 +372,13 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-[#c4a96a]/80 text-xs sm:text-base tracking-[0.2em] sm:tracking-[0.3em] uppercase mb-6"
+          style={{
+            color: `${GOLD_LIGHT}cc`,
+            fontSize: "clamp(10px, 2.5vw, 16px)",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            marginBottom: 24,
+          }}
         >
           Tu cuerpo. Tu mente. Tu templo.
         </motion.p>
@@ -301,28 +387,53 @@ function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-8"
+          style={{
+            fontSize: "clamp(28px, 6vw, 72px)",
+            fontWeight: 700,
+            letterSpacing: "-0.02em",
+            lineHeight: 1.1,
+            marginBottom: 32,
+          }}
         >
           Transforma tu vida
           <br />
-          <span className="text-[#a0884d]">desde dentro</span>
+          <span style={{ color: GOLD }}>desde dentro</span>
         </motion.h1>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="hero-buttons"
         >
           <a
             href={`tel:${PHONE.replace(/\s/g, "")}`}
-            className="px-8 py-4 bg-[#a0884d] text-black font-semibold text-sm tracking-[0.15em] uppercase hover:bg-[#c4a96a] transition-all duration-300 rounded-sm"
+            style={{
+              padding: "16px 32px",
+              background: GOLD,
+              color: "#000",
+              fontWeight: 600,
+              fontSize: 13,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              transition: "all 0.3s",
+            }}
           >
             Empieza hoy
           </a>
           <a
             href="#servicios"
-            className="px-8 py-4 border border-white/20 text-white/80 text-sm tracking-[0.15em] uppercase hover:border-[#a0884d]/40 hover:text-[#c4a96a] transition-all duration-300 rounded-sm"
+            style={{
+              padding: "16px 32px",
+              border: "1px solid rgba(255,255,255,0.2)",
+              color: "rgba(255,255,255,0.8)",
+              fontSize: 13,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              transition: "all 0.3s",
+            }}
           >
             Descubrir más
           </a>
@@ -332,23 +443,44 @@ function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.2 }}
-          className="mt-12 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-white/40 text-xs tracking-[0.15em] uppercase"
+          style={{
+            marginTop: 48,
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "8px 24px",
+            color: "rgba(255,255,255,0.4)",
+            fontSize: 11,
+            letterSpacing: "0.15em",
+            textTransform: "uppercase",
+          }}
         >
-          <div className="flex items-center gap-2">
-            <div className="flex">
+          <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <span style={{ display: "flex" }}>
               {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={12}
-                  className="text-[#a0884d] fill-[#a0884d]"
-                />
+                <Star key={i} size={12} fill={GOLD} color={GOLD} />
               ))}
-            </div>
-            <span>4.8 estrellas</span>
-          </div>
-          <div className="w-px h-4 bg-white/20 hidden sm:block" />
+            </span>
+            4.8 estrellas
+          </span>
+          <span
+            style={{
+              width: 1,
+              height: 16,
+              background: "rgba(255,255,255,0.2)",
+            }}
+            className="divider-sm"
+          />
           <span>118 opiniones</span>
-          <div className="w-px h-4 bg-white/20 hidden sm:block" />
+          <span
+            style={{
+              width: 1,
+              height: 16,
+              background: "rgba(255,255,255,0.2)",
+            }}
+            className="divider-sm"
+          />
           <span>Desde 2014</span>
         </motion.div>
       </motion.div>
@@ -357,46 +489,127 @@ function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        style={{
+          position: "absolute",
+          bottom: 32,
+          left: "50%",
+          transform: "translateX(-50%)",
+        }}
       >
         <ChevronDown
           size={24}
-          className="text-[#a0884d]/40 animate-bounce"
+          color={GOLD}
+          style={{ opacity: 0.4, animation: "bounce 2s infinite" }}
         />
       </motion.div>
+
+      <style>{`
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(8px); }
+        }
+      `}</style>
     </section>
   );
 }
 
 function Services() {
   return (
-    <section id="servicios" className="py-24 sm:py-32 px-6">
-      <div className="max-w-7xl mx-auto">
-        <RevealSection className="text-center mb-16 sm:mb-20">
-          <p className="text-[#c4a96a]/80 text-sm tracking-[0.3em] uppercase mb-4">
-            Nuestros servicios
-          </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
-            Todo lo que necesitas para{" "}
-            <span className="text-[#a0884d]">alcanzar tus metas</span>
-          </h2>
-        </RevealSection>
+    <section
+      id="servicios"
+      style={{ background: "#f7f6f3", color: "#1a1a1a", padding: "96px 24px" }}
+    >
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <p
+              style={{
+                color: GOLD,
+                fontSize: 13,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                marginBottom: 16,
+              }}
+            >
+              Nuestros servicios
+            </p>
+            <h2
+              style={{
+                fontSize: "clamp(28px, 5vw, 48px)",
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.2,
+              }}
+            >
+              Todo lo que necesitas para{" "}
+              <span style={{ color: GOLD }}>alcanzar tus metas</span>
+            </h2>
+          </div>
+        </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gap: 24,
+          }}
+        >
           {SERVICES.map((s, i) => (
-            <RevealItem key={s.title} delay={i * 0.1}>
-              <div className="group relative bg-white/[0.03] border border-white/[0.06] rounded-lg p-8 hover:border-[#a0884d]/20 hover:bg-white/[0.05] transition-all duration-500 h-full">
-                <div className="w-12 h-12 rounded-lg bg-[#a0884d]/10 flex items-center justify-center mb-6 group-hover:bg-[#a0884d]/20 transition-colors duration-500">
-                  <s.icon size={22} className="text-[#a0884d]" />
+            <Reveal key={s.title} delay={i * 0.08}>
+              <div
+                style={{
+                  background: "#fff",
+                  border: "1px solid rgba(0,0,0,0.06)",
+                  borderRadius: 12,
+                  padding: 32,
+                  height: "100%",
+                  transition: "all 0.4s",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.borderColor = `${GOLD}33`;
+                  e.currentTarget.style.boxShadow =
+                    "0 8px 32px rgba(160,136,77,0.08)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(0,0,0,0.06)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              >
+                <div
+                  style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: 10,
+                    background: `${GOLD}15`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: 24,
+                  }}
+                >
+                  <s.icon size={22} color={GOLD} />
                 </div>
-                <h3 className="text-xl font-semibold mb-3 tracking-tight">
+                <h3
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 600,
+                    marginBottom: 12,
+                    letterSpacing: "-0.01em",
+                  }}
+                >
                   {s.title}
                 </h3>
-                <p className="text-white/50 text-sm leading-relaxed">
+                <p
+                  style={{
+                    color: "rgba(0,0,0,0.5)",
+                    fontSize: 14,
+                    lineHeight: 1.7,
+                  }}
+                >
                   {s.desc}
                 </p>
               </div>
-            </RevealItem>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -406,18 +619,46 @@ function Services() {
 
 function About() {
   return (
-    <section id="nosotros" className="py-24 sm:py-32 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <RevealSection>
-            <p className="text-[#c4a96a]/80 text-sm tracking-[0.3em] uppercase mb-4">
+    <section
+      id="nosotros"
+      style={{ background: "#0a0a0a", color: "#fff", padding: "96px 24px" }}
+    >
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div className="about-grid">
+          <Reveal>
+            <p
+              style={{
+                color: `${GOLD_LIGHT}cc`,
+                fontSize: 13,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                marginBottom: 16,
+              }}
+            >
               Sobre nosotros
             </p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-[1.1]">
+            <h2
+              style={{
+                fontSize: "clamp(28px, 5vw, 48px)",
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
+                marginBottom: 24,
+              }}
+            >
               Más que un gimnasio,{" "}
-              <span className="text-[#a0884d]">una familia</span>
+              <span style={{ color: GOLD }}>una familia</span>
             </h2>
-            <div className="space-y-4 text-white/50 leading-relaxed">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 16,
+                color: "rgba(255,255,255,0.5)",
+                lineHeight: 1.7,
+                fontSize: 15,
+              }}
+            >
               <p>
                 Desde 2014, Zen Fitness Club ha sido el referente del bienestar
                 en Elche. Nuestro compromiso va más allá del ejercicio — creemos
@@ -435,10 +676,16 @@ function About() {
                 Fitness Club encontrarás lo que necesitas.
               </p>
             </div>
-          </RevealSection>
+          </Reveal>
 
-          <RevealSection delay={0.2}>
-            <div className="grid grid-cols-2 gap-4">
+          <Reveal delay={0.2}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 16,
+              }}
+            >
               {[
                 { value: "+10", label: "Años" },
                 { value: "118", label: "Opiniones" },
@@ -447,68 +694,126 @@ function About() {
               ].map((stat) => (
                 <div
                   key={stat.label}
-                  className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-8 text-center"
+                  style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(255,255,255,0.06)",
+                    borderRadius: 12,
+                    padding: 32,
+                    textAlign: "center",
+                  }}
                 >
-                  <div className="text-4xl font-bold text-[#a0884d] mb-2">
+                  <div
+                    style={{
+                      fontSize: 40,
+                      fontWeight: 700,
+                      color: GOLD,
+                      marginBottom: 8,
+                    }}
+                  >
                     {stat.value}
                   </div>
-                  <div className="text-white/40 text-sm tracking-wide uppercase">
+                  <div
+                    style={{
+                      color: "rgba(255,255,255,0.4)",
+                      fontSize: 12,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                    }}
+                  >
                     {stat.label}
                   </div>
                 </div>
               ))}
             </div>
-          </RevealSection>
+          </Reveal>
         </div>
       </div>
+
     </section>
   );
 }
 
 function Schedule() {
   return (
-    <section id="horario" className="py-24 sm:py-32 px-6">
-      <div className="max-w-3xl mx-auto">
-        <RevealSection className="text-center mb-16">
-          <p className="text-[#c4a96a]/80 text-sm tracking-[0.3em] uppercase mb-4">
-            Horario
-          </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
-            Abiertos cuando{" "}
-            <span className="text-[#a0884d]">tú nos necesitas</span>
-          </h2>
-        </RevealSection>
+    <section
+      id="horario"
+      style={{ background: "#f7f6f3", color: "#1a1a1a", padding: "96px 24px" }}
+    >
+      <div style={{ maxWidth: 720, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <p
+              style={{
+                color: GOLD,
+                fontSize: 13,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                marginBottom: 16,
+              }}
+            >
+              Horario
+            </p>
+            <h2
+              style={{
+                fontSize: "clamp(28px, 5vw, 48px)",
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Abiertos cuando{" "}
+              <span style={{ color: GOLD }}>tú nos necesitas</span>
+            </h2>
+          </div>
+        </Reveal>
 
-        <RevealSection delay={0.2}>
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg overflow-hidden">
+        <Reveal delay={0.15}>
+          <div
+            style={{
+              background: "#fff",
+              border: "1px solid rgba(0,0,0,0.06)",
+              borderRadius: 12,
+              overflow: "hidden",
+            }}
+          >
             {HOURS.map((h, i) => (
               <div
                 key={h.day}
-                className={`flex items-center justify-between px-8 py-6 ${
-                  i < HOURS.length - 1
-                    ? "border-b border-white/[0.06]"
-                    : ""
-                }`}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "20px 32px",
+                  borderBottom:
+                    i < HOURS.length - 1
+                      ? "1px solid rgba(0,0,0,0.06)"
+                      : "none",
+                }}
               >
-                <div className="flex items-center gap-4">
-                  <Clock size={16} className="text-[#a0884d]/60" />
-                  <span className="text-white/70 font-medium">
-                    {h.day}
-                  </span>
-                </div>
                 <span
-                  className={`font-semibold tracking-wide ${
-                    h.time === "Cerrado"
-                      ? "text-white/30"
-                      : "text-[#a0884d]"
-                  }`}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    fontWeight: 500,
+                    color: "#333",
+                  }}
+                >
+                  <Clock size={16} color={`${GOLD}99`} />
+                  {h.day}
+                </span>
+                <span
+                  style={{
+                    fontWeight: 600,
+                    letterSpacing: "0.02em",
+                    color: h.time === "Cerrado" ? "rgba(0,0,0,0.3)" : GOLD,
+                  }}
                 >
                   {h.time}
                 </span>
               </div>
             ))}
           </div>
-        </RevealSection>
+        </Reveal>
       </div>
     </section>
   );
@@ -516,136 +821,392 @@ function Schedule() {
 
 function Reviews() {
   return (
-    <section id="opiniones" className="py-24 sm:py-32 px-6">
-      <div className="max-w-7xl mx-auto">
-        <RevealSection className="text-center mb-16 sm:mb-20">
-          <p className="text-[#c4a96a]/80 text-sm tracking-[0.3em] uppercase mb-4">
-            Opiniones
-          </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
-            Lo que dicen{" "}
-            <span className="text-[#a0884d]">nuestros socios</span>
-          </h2>
-          <div className="flex items-center justify-center gap-3 mt-6">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={20}
-                  className="text-[#a0884d] fill-[#a0884d]"
-                />
-              ))}
+    <section
+      id="opiniones"
+      style={{ background: "#0a0a0a", color: "#fff", padding: "96px 24px" }}
+    >
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <p
+              style={{
+                color: `${GOLD_LIGHT}cc`,
+                fontSize: 13,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                marginBottom: 16,
+              }}
+            >
+              Opiniones
+            </p>
+            <h2
+              style={{
+                fontSize: "clamp(28px, 5vw, 48px)",
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Lo que dicen{" "}
+              <span style={{ color: GOLD }}>nuestros socios</span>
+            </h2>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 12,
+                marginTop: 24,
+              }}
+            >
+              <span style={{ display: "flex" }}>
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={18} fill={GOLD} color={GOLD} />
+                ))}
+              </span>
+              <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 14 }}>
+                4.8 de 5 — 118 opiniones en Google
+              </span>
             </div>
-            <span className="text-white/50 text-sm">
-              4.8 de 5 — 118 opiniones en Google
-            </span>
           </div>
-        </RevealSection>
+        </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: 24,
+          }}
+        >
           {REVIEWS.map((r, i) => (
-            <RevealItem key={r.name} delay={i * 0.1}>
-              <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-8 h-full flex flex-col">
-                <div className="flex mb-4">
+            <Reveal key={r.name} delay={i * 0.08}>
+              <div
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: 12,
+                  padding: 32,
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <div style={{ display: "flex", marginBottom: 16 }}>
                   {[...Array(r.stars)].map((_, j) => (
-                    <Star
-                      key={j}
-                      size={14}
-                      className="text-[#a0884d] fill-[#a0884d]"
-                    />
+                    <Star key={j} size={14} fill={GOLD} color={GOLD} />
                   ))}
                 </div>
-                <p className="text-white/60 text-sm leading-relaxed mb-6 flex-1">
+                <p
+                  style={{
+                    color: "rgba(255,255,255,0.6)",
+                    fontSize: 14,
+                    lineHeight: 1.7,
+                    marginBottom: 24,
+                    flex: 1,
+                  }}
+                >
                   &ldquo;{r.text}&rdquo;
                 </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#a0884d]/20 flex items-center justify-center text-[#a0884d] font-semibold text-sm">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: "50%",
+                      background: `${GOLD}33`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: GOLD,
+                      fontWeight: 600,
+                      fontSize: 14,
+                    }}
+                  >
                     {r.name[0]}
                   </div>
-                  <span className="text-white/80 font-medium text-sm">
+                  <span
+                    style={{
+                      color: "rgba(255,255,255,0.8)",
+                      fontWeight: 500,
+                      fontSize: 14,
+                    }}
+                  >
                     {r.name}
                   </span>
                 </div>
               </div>
-            </RevealItem>
+            </Reveal>
           ))}
         </div>
 
-        <RevealSection delay={0.4} className="text-center mt-10">
-          <a
-            href={GOOGLE_REVIEWS}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-[#a0884d]/70 text-sm tracking-[0.15em] uppercase hover:text-[#c4a96a] transition-colors duration-300"
-          >
-            Ver todas las opiniones en Google
-            <ChevronDown size={14} className="-rotate-90" />
-          </a>
-        </RevealSection>
+        <Reveal delay={0.4}>
+          <div style={{ textAlign: "center", marginTop: 40 }}>
+            <a
+              href={GOOGLE_REVIEWS}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                color: `${GOLD}b3`,
+                fontSize: 13,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                transition: "color 0.3s",
+              }}
+            >
+              Ver todas las opiniones en Google
+              <ChevronDown
+                size={14}
+                style={{ transform: "rotate(-90deg)" }}
+              />
+            </a>
+          </div>
+        </Reveal>
       </div>
+    </section>
+  );
+}
+
+function CTA() {
+  return (
+    <section
+      style={{ background: "#f7f6f3", color: "#1a1a1a", padding: "96px 24px" }}
+    >
+      <Reveal>
+        <div
+          style={{
+            maxWidth: 900,
+            margin: "0 auto",
+            textAlign: "center",
+            background:
+              "linear-gradient(135deg, rgba(160,136,77,0.08), rgba(160,136,77,0.03))",
+            border: `1px solid ${GOLD}1a`,
+            borderRadius: 20,
+            padding: "64px 32px",
+          }}
+        >
+          <h2
+            style={{
+              fontSize: "clamp(28px, 5vw, 48px)",
+              fontWeight: 700,
+              letterSpacing: "-0.02em",
+              lineHeight: 1.1,
+              marginBottom: 24,
+            }}
+          >
+            Tu transformación{" "}
+            <span style={{ color: GOLD }}>empieza aquí</span>
+          </h2>
+          <p
+            style={{
+              color: "rgba(0,0,0,0.5)",
+              maxWidth: 600,
+              margin: "0 auto 40px",
+              lineHeight: 1.7,
+            }}
+          >
+            Únete a la familia Zen Fitness Club y descubre un espacio donde el
+            esfuerzo se convierte en resultados. Primera visita sin compromiso.
+          </p>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 16,
+            }}
+          >
+            <a
+              href={`tel:${PHONE.replace(/\s/g, "")}`}
+              style={{
+                padding: "16px 32px",
+                background: GOLD,
+                color: "#000",
+                fontWeight: 600,
+                fontSize: 13,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                transition: "all 0.3s",
+              }}
+            >
+              <Phone size={16} />
+              {PHONE}
+            </a>
+            <a
+              href={INSTAGRAM}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                padding: "16px 32px",
+                border: "1px solid rgba(0,0,0,0.15)",
+                color: "#333",
+                fontSize: 13,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                transition: "all 0.3s",
+              }}
+            >
+              <Instagram size={16} />
+              Síguenos
+            </a>
+          </div>
+        </div>
+      </Reveal>
     </section>
   );
 }
 
 function Contact() {
   return (
-    <section id="contacto" className="py-24 sm:py-32 px-6">
-      <div className="max-w-7xl mx-auto">
-        <RevealSection className="text-center mb-16 sm:mb-20">
-          <p className="text-[#c4a96a]/80 text-sm tracking-[0.3em] uppercase mb-4">
-            Contacto
-          </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
-            ¿Listo para{" "}
-            <span className="text-[#a0884d]">empezar?</span>
-          </h2>
-        </RevealSection>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          <RevealItem delay={0}>
-            <a
-              href={`tel:${PHONE.replace(/\s/g, "")}`}
-              className="group bg-white/[0.03] border border-white/[0.06] rounded-lg p-8 text-center hover:border-[#a0884d]/20 hover:bg-white/[0.05] transition-all duration-500 block h-full"
+    <section
+      id="contacto"
+      style={{ background: "#0a0a0a", color: "#fff", padding: "96px 24px" }}
+    >
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <p
+              style={{
+                color: `${GOLD_LIGHT}cc`,
+                fontSize: 13,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                marginBottom: 16,
+              }}
             >
-              <div className="w-14 h-14 rounded-full bg-[#a0884d]/10 flex items-center justify-center mx-auto mb-5 group-hover:bg-[#a0884d]/20 transition-colors duration-500">
-                <Phone size={22} className="text-[#a0884d]" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Teléfono</h3>
-              <p className="text-[#c4a96a]/80 text-sm">{PHONE}</p>
-            </a>
-          </RevealItem>
-
-          <RevealItem delay={0.1}>
-            <a
-              href={`mailto:${EMAIL}`}
-              className="group bg-white/[0.03] border border-white/[0.06] rounded-lg p-8 text-center hover:border-[#a0884d]/20 hover:bg-white/[0.05] transition-all duration-500 block h-full"
+              Contacto
+            </p>
+            <h2
+              style={{
+                fontSize: "clamp(28px, 5vw, 48px)",
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+              }}
             >
-              <div className="w-14 h-14 rounded-full bg-[#a0884d]/10 flex items-center justify-center mx-auto mb-5 group-hover:bg-[#a0884d]/20 transition-colors duration-500">
-                <Mail size={22} className="text-[#a0884d]" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Email</h3>
-              <p className="text-[#c4a96a]/80 text-sm break-all">{EMAIL}</p>
-            </a>
-          </RevealItem>
+              ¿Listo para{" "}
+              <span style={{ color: GOLD }}>empezar?</span>
+            </h2>
+          </div>
+        </Reveal>
 
-          <RevealItem delay={0.2}>
-            <a
-              href={MAPS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group bg-white/[0.03] border border-white/[0.06] rounded-lg p-8 text-center hover:border-[#a0884d]/20 hover:bg-white/[0.05] transition-all duration-500 block h-full"
-            >
-              <div className="w-14 h-14 rounded-full bg-[#a0884d]/10 flex items-center justify-center mx-auto mb-5 group-hover:bg-[#a0884d]/20 transition-colors duration-500">
-                <MapPin size={22} className="text-[#a0884d]" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Ubicación</h3>
-              <p className="text-[#c4a96a]/80 text-sm">{ADDRESS}</p>
-            </a>
-          </RevealItem>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+            gap: 24,
+          }}
+        >
+          {[
+            {
+              icon: Phone,
+              title: "Teléfono",
+              info: PHONE,
+              href: `tel:${PHONE.replace(/\s/g, "")}`,
+            },
+            {
+              icon: Mail,
+              title: "Email",
+              info: EMAIL,
+              href: `mailto:${EMAIL}`,
+            },
+            {
+              icon: MapPin,
+              title: "Ubicación",
+              info: ADDRESS,
+              href: MAPS_URL,
+              external: true,
+            },
+          ].map((c, i) => (
+            <Reveal key={c.title} delay={i * 0.1}>
+              <a
+                href={c.href}
+                target={c.external ? "_blank" : undefined}
+                rel={c.external ? "noopener noreferrer" : undefined}
+                style={{
+                  display: "block",
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: 12,
+                  padding: 32,
+                  textAlign: "center",
+                  textDecoration: "none",
+                  color: "inherit",
+                  transition: "all 0.4s",
+                  height: "100%",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.borderColor = `${GOLD}33`;
+                  e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                  e.currentTarget.style.background = "rgba(255,255,255,0.03)";
+                }}
+              >
+                <div
+                  style={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: "50%",
+                    background: `${GOLD}1a`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0 auto 20px",
+                  }}
+                >
+                  <c.icon size={22} color={GOLD} />
+                </div>
+                <h3
+                  style={{
+                    fontSize: 18,
+                    fontWeight: 600,
+                    marginBottom: 8,
+                  }}
+                >
+                  {c.title}
+                </h3>
+                <p
+                  style={{
+                    color: `${GOLD_LIGHT}cc`,
+                    fontSize: 14,
+                    wordBreak: "break-all",
+                  }}
+                >
+                  {c.info}
+                </p>
+              </a>
+            </Reveal>
+          ))}
         </div>
 
-        <RevealSection delay={0.3} className="mt-12">
-          <div className="rounded-lg overflow-hidden border border-white/[0.06] h-[300px] sm:h-[400px]">
+        <Reveal delay={0.3}>
+          <div
+            style={{
+              marginTop: 48,
+              borderRadius: 12,
+              overflow: "hidden",
+              border: "1px solid rgba(255,255,255,0.06)",
+              height: 400,
+            }}
+          >
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3131.5!2d-0.6988!3d38.2669!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzjCsDE2JzAwLjgiTiAwwrA0MScwNy43Ilc!5e0!3m2!1ses!2ses!4v1"
               width="100%"
@@ -661,87 +1222,75 @@ function Contact() {
               title="Zen Fitness Club ubicación"
             />
           </div>
-        </RevealSection>
+        </Reveal>
       </div>
-    </section>
-  );
-}
-
-function CTA() {
-  return (
-    <section className="py-24 sm:py-32 px-6">
-      <RevealSection>
-        <div className="max-w-4xl mx-auto text-center bg-gradient-to-br from-[#a0884d]/10 via-[#a0884d]/5 to-transparent border border-[#a0884d]/10 rounded-2xl p-12 sm:p-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-[1.1]">
-            Tu transformación{" "}
-            <span className="text-[#a0884d]">empieza aquí</span>
-          </h2>
-          <p className="text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Únete a la familia Zen Fitness Club y descubre un espacio donde
-            el esfuerzo se convierte en resultados. Primera visita sin
-            compromiso.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href={`tel:${PHONE.replace(/\s/g, "")}`}
-              className="px-8 py-4 bg-[#a0884d] text-black font-semibold text-sm tracking-[0.15em] uppercase hover:bg-[#c4a96a] transition-all duration-300 rounded-sm inline-flex items-center gap-2"
-            >
-              <Phone size={16} />
-              {PHONE}
-            </a>
-            <a
-              href={INSTAGRAM}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-4 border border-white/20 text-white/80 text-sm tracking-[0.15em] uppercase hover:border-[#a0884d]/40 hover:text-[#c4a96a] transition-all duration-300 rounded-sm inline-flex items-center gap-2"
-            >
-              <Instagram size={16} />
-              Síguenos
-            </a>
-          </div>
-        </div>
-      </RevealSection>
     </section>
   );
 }
 
 function Footer() {
   return (
-    <footer className="border-t border-white/[0.06] py-12 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="Zen Fitness Club" className="h-8" />
-          </div>
+    <footer
+      style={{
+        borderTop: "1px solid rgba(255,255,255,0.06)",
+        padding: "48px 24px",
+        background: "#0a0a0a",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 1280,
+          margin: "0 auto",
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 24,
+        }}
+      >
+        <img src="/logo.png" alt="Zen Fitness Club" style={{ height: 32 }} />
 
-          <div className="flex items-center gap-6">
+        <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+          {[
+            { icon: Instagram, href: INSTAGRAM, external: true },
+            {
+              icon: Phone,
+              href: `tel:${PHONE.replace(/\s/g, "")}`,
+              external: false,
+            },
+            { icon: Mail, href: `mailto:${EMAIL}`, external: false },
+          ].map((s, i) => (
             <a
-              href={INSTAGRAM}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/30 hover:text-[#c4a96a] transition-colors duration-300"
+              key={i}
+              href={s.href}
+              target={s.external ? "_blank" : undefined}
+              rel={s.external ? "noopener noreferrer" : undefined}
+              style={{
+                color: "rgba(255,255,255,0.3)",
+                transition: "color 0.3s",
+              }}
+              onMouseOver={(e) =>
+                (e.currentTarget.style.color = GOLD_LIGHT)
+              }
+              onMouseOut={(e) =>
+                (e.currentTarget.style.color = "rgba(255,255,255,0.3)")
+              }
             >
-              <Instagram size={20} />
+              <s.icon size={20} />
             </a>
-            <a
-              href={`tel:${PHONE.replace(/\s/g, "")}`}
-              className="text-white/30 hover:text-[#c4a96a] transition-colors duration-300"
-            >
-              <Phone size={20} />
-            </a>
-            <a
-              href={`mailto:${EMAIL}`}
-              className="text-white/30 hover:text-[#c4a96a] transition-colors duration-300"
-            >
-              <Mail size={20} />
-            </a>
-          </div>
-
-          <p className="text-white/20 text-xs tracking-wide">
-            © {new Date().getFullYear()} Zen Fitness Club. Todos los derechos
-            reservados.
-          </p>
+          ))}
         </div>
+
+        <p
+          style={{
+            color: "rgba(255,255,255,0.2)",
+            fontSize: 12,
+            letterSpacing: "0.03em",
+          }}
+        >
+          © {new Date().getFullYear()} Zen Fitness Club. Todos los derechos
+          reservados.
+        </p>
       </div>
     </footer>
   );
@@ -749,7 +1298,7 @@ function Footer() {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div style={{ minHeight: "100vh", background: "#0a0a0a" }}>
       <Navbar />
       <Hero />
       <Services />
