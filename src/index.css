@@ -38,14 +38,6 @@ body {
 @media (min-width: 640px) { .hero-logo { width: min(320px, 60vw); } }
 @media (min-width: 1024px) { .hero-logo { width: 360px; } }
 
-/* Scroll arrow */
-.scroll-arrow {
-  position: absolute;
-  bottom: 48px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-@media (max-width: 640px) { .scroll-arrow { bottom: 80px; } }
 
 /* Responsive nav */
 .nav-desktop { display: none; align-items: center; gap: 32px; }

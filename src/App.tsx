@@ -804,19 +804,18 @@ function Hero({ t }: { t: typeof translations.es }) {
           </a>
         </motion.div>
 
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.2 }}
-        className="scroll-arrow"
-      >
-        <ChevronDown
-          size={24}
-          color={GOLD}
-          style={{ opacity: 0.5, animation: "bounce 2s infinite" }}
-        />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.2 }}
+          style={{ marginTop: 32, display: "flex", justifyContent: "center" }}
+        >
+          <ChevronDown
+            size={24}
+            color={GOLD}
+            style={{ opacity: 0.5, animation: "bounce 2s infinite" }}
+          />
+        </motion.div>
       </motion.div>
 
       <style>{`
