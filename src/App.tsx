@@ -333,13 +333,13 @@ function Reveal({
   delay?: number;
 }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const inView = useInView(ref, { once: true, margin: "-40px" });
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 60 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
-      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay }}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1], delay }}
       className={className}
     >
       {children}
@@ -347,8 +347,42 @@ function Reveal({
   );
 }
 
+function FadeInImage({
+  src,
+  alt,
+  style,
+  onMouseOver,
+  onMouseOut,
+  loading,
+}: {
+  src: string;
+  alt: string;
+  style?: React.CSSProperties;
+  onMouseOver?: React.MouseEventHandler<HTMLImageElement>;
+  onMouseOut?: React.MouseEventHandler<HTMLImageElement>;
+  loading?: "lazy" | "eager";
+}) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  return (
+    <motion.img
+      ref={ref}
+      src={src}
+      alt={alt}
+      loading={loading}
+      initial={{ opacity: 0, scale: 1.03 }}
+      animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.03 }}
+      transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
+      style={style}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
+    />
+  );
+}
+
 function CustomCursor() {
   const ref = useRef<HTMLDivElement>(null);
+  const isHovering = useRef(false);
 
   useEffect(() => {
     const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
@@ -358,7 +392,8 @@ function CustomCursor() {
 
     const onMove = (e: MouseEvent) => {
       if (ref.current) {
-        ref.current.style.transform = `translate(${e.clientX - 6}px, ${e.clientY - 6}px)`;
+        const size = isHovering.current ? 40 : 12;
+        ref.current.style.transform = `translate(${e.clientX - size / 2}px, ${e.clientY - size / 2}px)`;
       }
     };
 
@@ -366,11 +401,41 @@ function CustomCursor() {
       if (ref.current) ref.current.style.transform = "translate(-100px, -100px)";
     };
 
+    const onOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const interactive = target.closest("a, button, [role='button'], input, select, textarea, .service-card");
+      if (interactive && ref.current) {
+        isHovering.current = true;
+        ref.current.style.width = "40px";
+        ref.current.style.height = "40px";
+        ref.current.style.background = "#fff";
+        ref.current.style.mixBlendMode = "difference";
+        ref.current.style.borderRadius = "50%";
+      }
+    };
+
+    const onOut = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const interactive = target.closest("a, button, [role='button'], input, select, textarea, .service-card");
+      if (interactive && ref.current) {
+        isHovering.current = false;
+        ref.current.style.width = "12px";
+        ref.current.style.height = "12px";
+        ref.current.style.background = GOLD;
+        ref.current.style.mixBlendMode = "normal";
+        ref.current.style.borderRadius = "0";
+      }
+    };
+
     window.addEventListener("mousemove", onMove);
     document.addEventListener("mouseleave", onLeave);
+    document.addEventListener("mouseover", onOver);
+    document.addEventListener("mouseout", onOut);
     return () => {
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseleave", onLeave);
+      document.removeEventListener("mouseover", onOver);
+      document.removeEventListener("mouseout", onOut);
     };
   }, []);
 
@@ -388,6 +453,7 @@ function CustomCursor() {
         zIndex: 9999,
         display: "none",
         willChange: "transform",
+        transition: "width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s, mix-blend-mode 0.3s, border-radius 0.3s",
       }}
     />
   );
@@ -701,18 +767,17 @@ function Hero({ t }: { t: typeof translations.es }) {
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
           style={{
             fontSize: "clamp(28px, 6vw, 72px)",
-            fontWeight: 700,
             letterSpacing: "-0.02em",
             lineHeight: 1.1,
             marginBottom: 32,
           }}
         >
-          {t.heroHeading1}
+          <span style={{ fontWeight: 200 }}>{t.heroHeading1}</span>
           <br />
-          <span style={{ color: GOLD }}>{t.heroHeading2}</span>
+          <span style={{ color: GOLD, fontWeight: 700 }}>{t.heroHeading2}</span>
         </motion.h1>
 
         <motion.div
@@ -847,13 +912,13 @@ function ServiceCard({
         ref={cardRef}
         className="service-card"
         style={{
-          background: "#fff",
-          border: "1px solid rgba(0,0,0,0.06)",
+          background: "rgba(255,255,255,0.03)",
+          border: "1px solid rgba(255,255,255,0.06)",
           borderTop: "3px solid transparent",
           borderRadius: 12,
           padding: 32,
           height: "100%",
-          transition: "all 0.4s",
+          transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
           maxWidth: 400,
           width: "100%",
           margin: "0 auto",
@@ -862,14 +927,14 @@ function ServiceCard({
           e.currentTarget.style.borderColor = `${GOLD}33`;
           e.currentTarget.style.borderTopColor = GOLD;
           e.currentTarget.style.boxShadow =
-            "0 12px 40px rgba(160,136,77,0.15)";
-          e.currentTarget.style.transform = "scale(1.03)";
+            "0 12px 40px rgba(160,136,77,0.1)";
+          e.currentTarget.style.transform = "scale(1.02)";
           if (iconRef.current) {
             iconRef.current.style.background = GOLD;
           }
         }}
         onMouseOut={(e) => {
-          e.currentTarget.style.borderColor = "rgba(0,0,0,0.06)";
+          e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
           e.currentTarget.style.borderTopColor = "transparent";
           e.currentTarget.style.boxShadow = "none";
           e.currentTarget.style.transform = "scale(1)";
@@ -889,7 +954,7 @@ function ServiceCard({
             alignItems: "center",
             justifyContent: "center",
             marginBottom: 24,
-            transition: "background 0.4s",
+            transition: "background 0.5s",
           }}
         >
           <service.icon size={22} color={GOLD} className="service-icon" />
@@ -900,13 +965,14 @@ function ServiceCard({
             fontWeight: 600,
             marginBottom: 12,
             letterSpacing: "-0.01em",
+            color: "#fff",
           }}
         >
           {t[service.titleKey]}
         </h3>
         <p
           style={{
-            color: "rgba(0,0,0,0.5)",
+            color: "rgba(255,255,255,0.5)",
             fontSize: 14,
             lineHeight: 1.7,
           }}
@@ -922,14 +988,14 @@ function Services({ t }: { t: typeof translations.es }) {
   return (
     <section
       id="servicios"
-      style={{ background: "#f7f6f3", color: "#1a1a1a", padding: "96px 24px" }}
+      style={{ background: "#0a0a0a", color: "#fff", padding: "120px 24px" }}
     >
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <p
               style={{
-                color: GOLD,
+                color: `${GOLD_LIGHT}cc`,
                 fontSize: 13,
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
@@ -941,13 +1007,12 @@ function Services({ t }: { t: typeof translations.es }) {
             <h2
               style={{
                 fontSize: "clamp(28px, 5vw, 48px)",
-                fontWeight: 700,
                 letterSpacing: "-0.02em",
                 lineHeight: 1.2,
               }}
             >
-              {t.servicesHeading1}{" "}
-              <span style={{ color: GOLD }}>{t.servicesHeading2}</span>
+              <span style={{ fontWeight: 200 }}>{t.servicesHeading1}</span>{" "}
+              <span style={{ color: GOLD, fontWeight: 700 }}>{t.servicesHeading2}</span>
             </h2>
           </div>
         </Reveal>
@@ -981,102 +1046,97 @@ function Services({ t }: { t: typeof translations.es }) {
 }
 
 function About({ t }: { t: typeof translations.es }) {
+  const stats = [
+    { value: "+10", label: t.aboutStatYears },
+    { value: "118", label: t.aboutStatReviews },
+    { value: "4.8", label: t.aboutStatStars },
+    { value: "6+", label: t.aboutStatDisciplines },
+  ];
+
   return (
     <section
       id="nosotros"
-      style={{ background: "#0a0a0a", color: "#fff", padding: "96px 24px" }}
+      style={{ background: "#0a0a0a", color: "#fff", padding: "120px 24px" }}
     >
-      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        <div className="about-grid">
-          <Reveal>
-            <p
-              style={{
-                color: `${GOLD_LIGHT}cc`,
-                fontSize: 13,
-                letterSpacing: "0.3em",
-                textTransform: "uppercase",
-                marginBottom: 16,
-              }}
-            >
-              {t.aboutLabel}
-            </p>
-            <h2
-              style={{
-                fontSize: "clamp(28px, 5vw, 48px)",
-                fontWeight: 700,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                marginBottom: 24,
-              }}
-            >
-              {t.aboutHeading1}{" "}
-              <span style={{ color: GOLD }}>{t.aboutHeading2}</span>
-            </h2>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 16,
-                color: "rgba(255,255,255,0.5)",
-                lineHeight: 1.7,
-                fontSize: 15,
-              }}
-            >
-              <p>{t.aboutP1}</p>
-              <p>{t.aboutP2}</p>
-              <p>{t.aboutP3}</p>
-            </div>
-          </Reveal>
+      <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
+        <Reveal>
+          <p
+            style={{
+              color: `${GOLD_LIGHT}cc`,
+              fontSize: 13,
+              letterSpacing: "0.3em",
+              textTransform: "uppercase",
+              marginBottom: 16,
+            }}
+          >
+            {t.aboutLabel}
+          </p>
+          <h2
+            style={{
+              fontSize: "clamp(28px, 5vw, 48px)",
+              letterSpacing: "-0.02em",
+              lineHeight: 1.1,
+              marginBottom: 32,
+            }}
+          >
+            <span style={{ fontWeight: 200 }}>{t.aboutHeading1}</span>{" "}
+            <span style={{ color: GOLD, fontWeight: 700 }}>{t.aboutHeading2}</span>
+          </h2>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 16,
+              color: "rgba(255,255,255,0.5)",
+              lineHeight: 1.8,
+              fontSize: 15,
+              textAlign: "center",
+            }}
+          >
+            <p>{t.aboutP1}</p>
+            <p>{t.aboutP2}</p>
+            <p>{t.aboutP3}</p>
+          </div>
+        </Reveal>
 
-          <Reveal delay={0.2}>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 16,
-              }}
-            >
-              {[
-                { value: "+10", label: t.aboutStatYears },
-                { value: "118", label: t.aboutStatReviews },
-                { value: "4.8", label: t.aboutStatStars },
-                { value: "6+", label: t.aboutStatDisciplines },
-              ].map((stat) => (
-                <div
-                  key={stat.label}
+        <Reveal delay={0.3}>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "32px 48px",
+              marginTop: 48,
+            }}
+          >
+            {stats.map((stat) => (
+              <div key={stat.label} style={{ textAlign: "center" }}>
+                <span
                   style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.06)",
-                    borderRadius: 12,
-                    padding: 32,
-                    textAlign: "center",
+                    fontSize: 36,
+                    fontWeight: 700,
+                    color: GOLD,
+                    letterSpacing: "-0.02em",
                   }}
                 >
-                  <div
-                    style={{
-                      fontSize: 40,
-                      fontWeight: 700,
-                      color: GOLD,
-                      marginBottom: 8,
-                    }}
-                  >
-                    {stat.value}
-                  </div>
-                  <div
-                    style={{
-                      color: "rgba(255,255,255,0.4)",
-                      fontSize: 12,
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
+                  {stat.value}
+                </span>
+                <span
+                  style={{
+                    display: "block",
+                    color: "rgba(255,255,255,0.4)",
+                    fontSize: 11,
+                    letterSpacing: "0.15em",
+                    textTransform: "uppercase",
+                    marginTop: 4,
+                  }}
+                >
+                  {stat.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -1092,14 +1152,14 @@ function Schedule({ t }: { t: typeof translations.es }) {
   return (
     <section
       id="horario"
-      style={{ background: "#f7f6f3", color: "#1a1a1a", padding: "96px 24px" }}
+      style={{ background: "#0a0a0a", color: "#fff", padding: "120px 24px" }}
     >
       <div style={{ maxWidth: 720, margin: "0 auto" }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
             <p
               style={{
-                color: GOLD,
+                color: `${GOLD_LIGHT}cc`,
                 fontSize: 13,
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
@@ -1111,12 +1171,11 @@ function Schedule({ t }: { t: typeof translations.es }) {
             <h2
               style={{
                 fontSize: "clamp(28px, 5vw, 48px)",
-                fontWeight: 700,
                 letterSpacing: "-0.02em",
               }}
             >
-              {t.scheduleHeading1}{" "}
-              <span style={{ color: GOLD }}>{t.scheduleHeading2}</span>
+              <span style={{ fontWeight: 200 }}>{t.scheduleHeading1}</span>{" "}
+              <span style={{ color: GOLD, fontWeight: 700 }}>{t.scheduleHeading2}</span>
             </h2>
           </div>
         </Reveal>
@@ -1124,8 +1183,8 @@ function Schedule({ t }: { t: typeof translations.es }) {
         <Reveal delay={0.15}>
           <div
             style={{
-              background: "#fff",
-              border: "1px solid rgba(0,0,0,0.06)",
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.06)",
               borderRadius: 12,
               overflow: "hidden",
             }}
@@ -1140,7 +1199,7 @@ function Schedule({ t }: { t: typeof translations.es }) {
                   padding: "20px 32px",
                   borderBottom:
                     i < hours.length - 1
-                      ? "1px solid rgba(0,0,0,0.06)"
+                      ? "1px solid rgba(255,255,255,0.06)"
                       : "none",
                 }}
               >
@@ -1150,7 +1209,7 @@ function Schedule({ t }: { t: typeof translations.es }) {
                     alignItems: "center",
                     gap: 12,
                     fontWeight: 500,
-                    color: "#333",
+                    color: "rgba(255,255,255,0.7)",
                   }}
                 >
                   <Clock size={16} color={`${GOLD}99`} />
@@ -1162,7 +1221,7 @@ function Schedule({ t }: { t: typeof translations.es }) {
                     letterSpacing: "0.02em",
                     color:
                       h.time === t.scheduleClosed
-                        ? "rgba(0,0,0,0.3)"
+                        ? "rgba(255,255,255,0.3)"
                         : GOLD,
                   }}
                 >
@@ -1255,7 +1314,7 @@ function Reviews({ t }: { t: typeof translations.es }) {
   return (
     <section
       id="opiniones"
-      style={{ background: "#0a0a0a", color: "#fff", paddingTop: 96, paddingBottom: 96, overflow: "hidden" }}
+      style={{ background: "#0a0a0a", color: "#fff", paddingTop: 120, paddingBottom: 120, overflow: "hidden" }}
     >
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px" }}>
         <Reveal>
@@ -1274,12 +1333,11 @@ function Reviews({ t }: { t: typeof translations.es }) {
             <h2
               style={{
                 fontSize: "clamp(28px, 5vw, 48px)",
-                fontWeight: 700,
                 letterSpacing: "-0.02em",
               }}
             >
-              {t.reviewsHeading1}{" "}
-              <span style={{ color: GOLD }}>{t.reviewsHeading2}</span>
+              <span style={{ fontWeight: 200 }}>{t.reviewsHeading1}</span>{" "}
+              <span style={{ color: GOLD, fontWeight: 700 }}>{t.reviewsHeading2}</span>
             </h2>
             <div
               style={{
@@ -1392,7 +1450,7 @@ function Reviews({ t }: { t: typeof translations.es }) {
 function CTA({ t }: { t: typeof translations.es }) {
   return (
     <section
-      style={{ background: "#f7f6f3", color: "#1a1a1a", padding: "96px 24px" }}
+      style={{ background: "#0a0a0a", color: "#fff", padding: "120px 24px" }}
     >
       <Reveal>
         <div
@@ -1401,8 +1459,8 @@ function CTA({ t }: { t: typeof translations.es }) {
             margin: "0 auto",
             textAlign: "center",
             background:
-              "linear-gradient(135deg, rgba(160,136,77,0.08), rgba(160,136,77,0.03))",
-            border: `1px solid ${GOLD}1a`,
+              "linear-gradient(135deg, rgba(160,136,77,0.06), rgba(160,136,77,0.02))",
+            border: `1px solid rgba(160,136,77,0.12)`,
             borderRadius: 20,
             padding: "64px 32px",
           }}
@@ -1410,21 +1468,20 @@ function CTA({ t }: { t: typeof translations.es }) {
           <h2
             style={{
               fontSize: "clamp(28px, 5vw, 48px)",
-              fontWeight: 700,
               letterSpacing: "-0.02em",
               lineHeight: 1.1,
               marginBottom: 24,
             }}
           >
-            {t.ctaHeading1}{" "}
-            <span style={{ color: GOLD }}>{t.ctaHeading2}</span>
+            <span style={{ fontWeight: 200 }}>{t.ctaHeading1}</span>{" "}
+            <span style={{ color: GOLD, fontWeight: 700 }}>{t.ctaHeading2}</span>
           </h2>
           <p
             style={{
-              color: "rgba(0,0,0,0.5)",
+              color: "rgba(255,255,255,0.5)",
               maxWidth: 600,
               margin: "0 auto 40px",
-              lineHeight: 1.7,
+              lineHeight: 1.8,
             }}
           >
             {t.ctaText}
@@ -1464,8 +1521,8 @@ function CTA({ t }: { t: typeof translations.es }) {
               rel="noopener noreferrer"
               style={{
                 padding: "16px 32px",
-                border: "1px solid rgba(0,0,0,0.15)",
-                color: "#333",
+                border: "1px solid rgba(255,255,255,0.15)",
+                color: "rgba(255,255,255,0.7)",
                 fontSize: 13,
                 letterSpacing: "0.15em",
                 textTransform: "uppercase",
@@ -1490,7 +1547,7 @@ function Contact({ t }: { t: typeof translations.es }) {
   return (
     <section
       id="contacto"
-      style={{ background: "#0a0a0a", color: "#fff", padding: "96px 24px" }}
+      style={{ background: "#0a0a0a", color: "#fff", padding: "120px 24px" }}
     >
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <Reveal>
@@ -1509,12 +1566,11 @@ function Contact({ t }: { t: typeof translations.es }) {
             <h2
               style={{
                 fontSize: "clamp(28px, 5vw, 48px)",
-                fontWeight: 700,
                 letterSpacing: "-0.02em",
               }}
             >
-              {t.contactHeading1}{" "}
-              <span style={{ color: GOLD }}>{t.contactHeading2}</span>
+              <span style={{ fontWeight: 200 }}>{t.contactHeading1}</span>{" "}
+              <span style={{ color: GOLD, fontWeight: 700 }}>{t.contactHeading2}</span>
             </h2>
           </div>
         </Reveal>
@@ -1786,7 +1842,7 @@ function Gallery({ t }: { t: typeof translations.es }) {
   return (
     <section
       id="instalaciones"
-      style={{ background: "#0a0a0a", color: "#fff", padding: "96px 24px" }}
+      style={{ background: "#0a0a0a", color: "#fff", padding: "120px 24px" }}
     >
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <Reveal>
@@ -1805,12 +1861,11 @@ function Gallery({ t }: { t: typeof translations.es }) {
             <h2
               style={{
                 fontSize: "clamp(28px, 5vw, 48px)",
-                fontWeight: 700,
                 letterSpacing: "-0.02em",
               }}
             >
-              {t.galleryHeading1}{" "}
-              <span style={{ color: GOLD }}>{t.galleryHeading2}</span>
+              <span style={{ fontWeight: 200 }}>{t.galleryHeading1}</span>{" "}
+              <span style={{ color: GOLD, fontWeight: 700 }}>{t.galleryHeading2}</span>
             </h2>
           </div>
         </Reveal>
@@ -1819,7 +1874,7 @@ function Gallery({ t }: { t: typeof translations.es }) {
           {images.map((img, i) => (
             <Reveal
               key={img.src}
-              delay={i * 0.08}
+              delay={i * 0.12}
               className={i === 0 ? "gallery-featured" : ""}
             >
               <div
@@ -1831,7 +1886,7 @@ function Gallery({ t }: { t: typeof translations.es }) {
                   minHeight: i === 0 ? 400 : 250,
                 }}
               >
-                <img
+                <FadeInImage
                   src={img.src}
                   alt={img.alt}
                   loading="lazy"
@@ -1839,10 +1894,10 @@ function Gallery({ t }: { t: typeof translations.es }) {
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
-                    transition: "transform 0.6s ease",
+                    transition: "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)",
                   }}
                   onMouseOver={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.05)")
+                    (e.currentTarget.style.transform = "scale(1.04)")
                   }
                   onMouseOut={(e) =>
                     (e.currentTarget.style.transform = "scale(1)")
@@ -1879,6 +1934,19 @@ function Gallery({ t }: { t: typeof translations.es }) {
   );
 }
 
+function SectionDivider() {
+  return (
+    <div
+      style={{
+        maxWidth: 120,
+        margin: "0 auto",
+        height: 1,
+        background: `linear-gradient(to right, transparent, ${GOLD}40, transparent)`,
+      }}
+    />
+  );
+}
+
 export default function App() {
   const [lang, setLang] = useState<Lang>("es");
   const t = translations[lang];
@@ -1888,13 +1956,19 @@ export default function App() {
       <CustomCursor />
       <Navbar lang={lang} setLang={setLang} t={t} />
       <Hero t={t} />
+      <SectionDivider />
       <Services t={t} />
+      <SectionDivider />
       <About t={t} />
+      <SectionDivider />
       <Gallery t={t} />
+      <SectionDivider />
       <Schedule t={t} />
       <ParallaxDivider t={t} />
       <Reviews t={t} />
+      <SectionDivider />
       <CTA t={t} />
+      <SectionDivider />
       <Contact t={t} />
       <Footer t={t} />
     </div>

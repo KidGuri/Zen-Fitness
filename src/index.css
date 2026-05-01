@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -43,7 +43,7 @@ body {
   .nav-mobile-menu { display: none; }
 }
 
-/* About grid */
+/* About grid (kept for backwards compat) */
 .about-grid { display: grid; grid-template-columns: 1fr; gap: 64px; align-items: center; }
 @media (min-width: 1024px) { .about-grid { grid-template-columns: 1fr 1fr; } }
 
