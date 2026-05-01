@@ -3,7 +3,6 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import {
   Phone,
   Mail,
-  MapPin,
   Clock,
   Star,
   ChevronDown,
@@ -745,7 +744,8 @@ function Hero({ t }: { t: typeof translations.es }) {
           <img
             src="/logo.png"
             alt="Zen Fitness Club"
-            style={{ width: "min(360px, 70vw)", margin: "0 auto 32px" }}
+            className="hero-logo"
+            style={{ margin: "0 auto 32px" }}
           />
         </motion.div>
 
@@ -784,7 +784,7 @@ function Hero({ t }: { t: typeof translations.es }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="hero-buttons"
+          style={{ display: "flex", justifyContent: "center" }}
         >
           <a
             href={`tel:${PHONE.replace(/\s/g, "")}`}
@@ -801,21 +801,6 @@ function Hero({ t }: { t: typeof translations.es }) {
             }}
           >
             {t.heroBtn1}
-          </a>
-          <a
-            href="#servicios"
-            style={{
-              padding: "16px 32px",
-              border: "1px solid rgba(255,255,255,0.2)",
-              color: "rgba(255,255,255,0.8)",
-              fontSize: 13,
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              transition: "all 0.3s",
-            }}
-          >
-            {t.heroBtn2}
           </a>
         </motion.div>
 
@@ -870,12 +855,7 @@ function Hero({ t }: { t: typeof translations.es }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.5 }}
-        style={{
-          position: "absolute",
-          bottom: 32,
-          left: "50%",
-          transform: "translateX(-50%)",
-        }}
+        className="scroll-arrow"
       >
         <ChevronDown
           size={24}
@@ -916,7 +896,7 @@ function ServiceCard({
           border: "1px solid rgba(255,255,255,0.06)",
           borderTop: "3px solid transparent",
           borderRadius: 12,
-          padding: 32,
+          padding: "24px 16px",
           height: "100%",
           transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
           maxWidth: 400,
@@ -1100,20 +1080,12 @@ function About({ t }: { t: typeof translations.es }) {
         </Reveal>
 
         <Reveal delay={0.3}>
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: "32px 48px",
-              marginTop: 48,
-            }}
-          >
+          <div className="about-stats">
             {stats.map((stat) => (
               <div key={stat.label} style={{ textAlign: "center" }}>
                 <span
                   style={{
-                    fontSize: 36,
+                    fontSize: "clamp(24px, 5vw, 36px)",
                     fontWeight: 700,
                     color: GOLD,
                     letterSpacing: "-0.02em",
@@ -1125,7 +1097,7 @@ function About({ t }: { t: typeof translations.es }) {
                   style={{
                     display: "block",
                     color: "rgba(255,255,255,0.4)",
-                    fontSize: 11,
+                    fontSize: "clamp(9px, 1.5vw, 11px)",
                     letterSpacing: "0.15em",
                     textTransform: "uppercase",
                     marginTop: 4,
@@ -1575,96 +1547,73 @@ function Contact({ t }: { t: typeof translations.es }) {
           </div>
         </Reveal>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-            gap: 24,
-          }}
-        >
-          {[
-            {
-              icon: Phone,
-              title: t.contactPhone,
-              info: PHONE,
-              href: `tel:${PHONE.replace(/\s/g, "")}`,
-            },
-            {
-              icon: Mail,
-              title: t.contactEmail,
-              info: EMAIL,
-              href: `mailto:${EMAIL}`,
-            },
-            {
-              icon: MapPin,
-              title: t.contactLocation,
-              info: ADDRESS,
-              href: MAPS_URL,
-              external: true,
-            },
-          ].map((c, i) => (
-            <Reveal key={c.title} delay={i * 0.1}>
+        <Reveal delay={0.15}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 32,
+            }}
+          >
+            {[
+              {
+                title: t.contactPhone,
+                info: PHONE,
+                href: `tel:${PHONE.replace(/\s/g, "")}`,
+              },
+              {
+                title: t.contactEmail,
+                info: EMAIL,
+                href: `mailto:${EMAIL}`,
+              },
+              {
+                title: t.contactLocation,
+                info: ADDRESS,
+                href: MAPS_URL,
+                external: true,
+              },
+            ].map((c) => (
               <a
+                key={c.title}
                 href={c.href}
                 target={c.external ? "_blank" : undefined}
                 rel={c.external ? "noopener noreferrer" : undefined}
                 style={{
-                  display: "block",
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  borderRadius: 12,
-                  padding: 32,
-                  textAlign: "center",
                   textDecoration: "none",
                   color: "inherit",
-                  transition: "all 0.4s",
-                  height: "100%",
+                  textAlign: "center",
+                  transition: "opacity 0.4s",
                 }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.borderColor = `${GOLD}33`;
-                  e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.03)";
-                }}
+                onMouseOver={(e) => { e.currentTarget.style.opacity = "0.7"; }}
+                onMouseOut={(e) => { e.currentTarget.style.opacity = "1"; }}
               >
-                <div
+                <span
                   style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: "50%",
-                    background: `${GOLD}1a`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    margin: "0 auto 20px",
-                  }}
-                >
-                  <c.icon size={22} color={GOLD} />
-                </div>
-                <h3
-                  style={{
-                    fontSize: 18,
-                    fontWeight: 600,
-                    marginBottom: 8,
+                    display: "block",
+                    fontSize: 11,
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    color: "rgba(255,255,255,0.4)",
+                    marginBottom: 6,
                   }}
                 >
                   {c.title}
-                </h3>
-                <p
+                </span>
+                <span
                   style={{
-                    color: `${GOLD_LIGHT}cc`,
-                    fontSize: 14,
-                    wordBreak: "break-all",
+                    fontSize: 18,
+                    fontWeight: 300,
+                    color: GOLD_LIGHT,
+                    letterSpacing: "0.02em",
                   }}
                 >
                   {c.info}
-                </p>
+                </span>
               </a>
-            </Reveal>
-          ))}
-        </div>
+            ))}
+          </div>
+        </Reveal>
 
         <Reveal delay={0.3}>
           <div
@@ -1874,7 +1823,7 @@ function Gallery({ t }: { t: typeof translations.es }) {
           {images.map((img, i) => (
             <Reveal
               key={img.src}
-              delay={i * 0.12}
+              delay={i * 0.2}
               className={i === 0 ? "gallery-featured" : ""}
             >
               <div
@@ -1883,7 +1832,7 @@ function Gallery({ t }: { t: typeof translations.es }) {
                   overflow: "hidden",
                   borderRadius: 12,
                   height: "100%",
-                  minHeight: i === 0 ? 400 : 250,
+                  minHeight: i === 0 ? 400 : 220,
                 }}
               >
                 <FadeInImage
