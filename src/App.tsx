@@ -471,7 +471,7 @@ function LanguageToggle({
         display: "flex",
         alignItems: "center",
         border: `1px solid rgba(160,136,77,0.4)`,
-        borderRadius: 4,
+        borderRadius: 2,
         overflow: "hidden",
         fontSize: 11,
         fontWeight: 600,
@@ -733,7 +733,7 @@ function Hero({ t }: { t: typeof translations.es }) {
           padding: "0 20px",
           maxWidth: 900,
           width: "100%",
-          marginTop: "-5vh",
+          marginTop: "-8vh",
         }}
       >
         <motion.div
@@ -804,63 +804,18 @@ function Hero({ t }: { t: typeof translations.es }) {
           </a>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
-          style={{
-            marginTop: 48,
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "8px 28px",
-            color: "rgba(255,255,255,0.55)",
-            fontSize: "clamp(13px, 2vw, 17px)",
-            fontWeight: 500,
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-          }}
-        >
-          <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ display: "flex" }}>
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={16} fill={GOLD} color={GOLD} />
-              ))}
-            </span>
-            {t.heroStars}
-          </span>
-          <span
-            style={{
-              width: 1,
-              height: 16,
-              background: "rgba(255,255,255,0.2)",
-            }}
-            className="divider-sm"
-          />
-          <span>{t.heroReviews}</span>
-          <span
-            style={{
-              width: 1,
-              height: 16,
-              background: "rgba(255,255,255,0.2)",
-            }}
-            className="divider-sm"
-          />
-          <span>{t.heroSince}</span>
-        </motion.div>
       </motion.div>
 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }}
+        transition={{ duration: 1, delay: 1.2 }}
         className="scroll-arrow"
       >
         <ChevronDown
           size={24}
           color={GOLD}
-          style={{ opacity: 0.4, animation: "bounce 2s infinite" }}
+          style={{ opacity: 0.5, animation: "bounce 2s infinite" }}
         />
       </motion.div>
 
@@ -895,7 +850,7 @@ function ServiceCard({
           background: "rgba(255,255,255,0.03)",
           border: "1px solid rgba(255,255,255,0.06)",
           borderTop: "3px solid transparent",
-          borderRadius: 12,
+          borderRadius: 2,
           padding: "24px 16px",
           height: "100%",
           transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -928,7 +883,7 @@ function ServiceCard({
           style={{
             width: 48,
             height: 48,
-            borderRadius: 10,
+            borderRadius: 2,
             background: `${GOLD}15`,
             display: "flex",
             alignItems: "center",
@@ -1005,17 +960,6 @@ function Services({ t }: { t: typeof translations.es }) {
       </div>
 
       <style>{`
-        .services-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 24px;
-          justify-items: center;
-        }
-        @media (min-width: 960px) {
-          .services-grid {
-            grid-template-columns: repeat(3, 1fr);
-          }
-        }
         .service-card:hover .service-icon {
           color: #fff !important;
           stroke: #fff !important;
@@ -1157,7 +1101,7 @@ function Schedule({ t }: { t: typeof translations.es }) {
             style={{
               background: "rgba(255,255,255,0.03)",
               border: "1px solid rgba(255,255,255,0.06)",
-              borderRadius: 12,
+              borderRadius: 2,
               overflow: "hidden",
             }}
           >
@@ -1214,7 +1158,7 @@ function ReviewCard({ r, t }: { r: (typeof REVIEWS_DATA)[0]; t: typeof translati
       style={{
         background: "rgba(255,255,255,0.03)",
         border: "1px solid rgba(255,255,255,0.06)",
-        borderRadius: 12,
+        borderRadius: 2,
         padding: 32,
         width: 350,
         minWidth: 350,
@@ -1433,7 +1377,7 @@ function CTA({ t }: { t: typeof translations.es }) {
             background:
               "linear-gradient(135deg, rgba(160,136,77,0.06), rgba(160,136,77,0.02))",
             border: `1px solid rgba(160,136,77,0.12)`,
-            borderRadius: 20,
+            borderRadius: 2,
             padding: "64px 32px",
           }}
         >
@@ -1516,12 +1460,33 @@ function CTA({ t }: { t: typeof translations.es }) {
 }
 
 function Contact({ t }: { t: typeof translations.es }) {
+  const [activeTab, setActiveTab] = useState<number>(0);
+
+  const contactItems = [
+    {
+      title: t.contactPhone,
+      info: PHONE,
+      href: `tel:${PHONE.replace(/\s/g, "")}`,
+    },
+    {
+      title: t.contactEmail,
+      info: EMAIL,
+      href: `mailto:${EMAIL}`,
+    },
+    {
+      title: t.contactLocation,
+      info: ADDRESS,
+      href: MAPS_URL,
+      external: true,
+    },
+  ];
+
   return (
     <section
       id="contacto"
       style={{ background: "#0a0a0a", color: "#fff", padding: "120px 24px" }}
     >
-      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto" }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <p
@@ -1548,78 +1513,70 @@ function Contact({ t }: { t: typeof translations.es }) {
         </Reveal>
 
         <Reveal delay={0.15}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 32,
-            }}
-          >
-            {[
-              {
-                title: t.contactPhone,
-                info: PHONE,
-                href: `tel:${PHONE.replace(/\s/g, "")}`,
-              },
-              {
-                title: t.contactEmail,
-                info: EMAIL,
-                href: `mailto:${EMAIL}`,
-              },
-              {
-                title: t.contactLocation,
-                info: ADDRESS,
-                href: MAPS_URL,
-                external: true,
-              },
-            ].map((c) => (
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                display: "inline-flex",
+                gap: 0,
+                border: `1px solid rgba(255,255,255,0.1)`,
+                borderRadius: 2,
+                overflow: "hidden",
+                marginBottom: 40,
+              }}
+            >
+              {contactItems.map((c, i) => (
+                <button
+                  key={c.title}
+                  onClick={() => setActiveTab(i)}
+                  style={{
+                    padding: "12px 24px",
+                    background: activeTab === i ? GOLD : "transparent",
+                    color: activeTab === i ? "#000" : "rgba(255,255,255,0.5)",
+                    border: "none",
+                    fontSize: 11,
+                    fontWeight: 600,
+                    letterSpacing: "0.15em",
+                    textTransform: "uppercase",
+                    transition: "all 0.4s",
+                  }}
+                >
+                  {c.title}
+                </button>
+              ))}
+            </div>
+
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            >
               <a
-                key={c.title}
-                href={c.href}
-                target={c.external ? "_blank" : undefined}
-                rel={c.external ? "noopener noreferrer" : undefined}
+                href={contactItems[activeTab].href}
+                target={contactItems[activeTab].external ? "_blank" : undefined}
+                rel={contactItems[activeTab].external ? "noopener noreferrer" : undefined}
                 style={{
                   textDecoration: "none",
-                  color: "inherit",
-                  textAlign: "center",
+                  color: GOLD_LIGHT,
+                  fontSize: "clamp(18px, 3vw, 24px)",
+                  fontWeight: 300,
+                  letterSpacing: "0.02em",
                   transition: "opacity 0.4s",
                 }}
                 onMouseOver={(e) => { e.currentTarget.style.opacity = "0.7"; }}
                 onMouseOut={(e) => { e.currentTarget.style.opacity = "1"; }}
               >
-                <span
-                  style={{
-                    display: "block",
-                    fontSize: 11,
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    color: "rgba(255,255,255,0.4)",
-                    marginBottom: 6,
-                  }}
-                >
-                  {c.title}
-                </span>
-                <span
-                  style={{
-                    fontSize: 18,
-                    fontWeight: 300,
-                    color: GOLD_LIGHT,
-                    letterSpacing: "0.02em",
-                  }}
-                >
-                  {c.info}
-                </span>
+                {contactItems[activeTab].info}
               </a>
-            ))}
+            </motion.div>
           </div>
         </Reveal>
 
         <Reveal delay={0.3}>
           <div
             style={{
-              marginTop: 48,
-              borderRadius: 12,
+              marginTop: 64,
+              borderRadius: 2,
               overflow: "hidden",
               border: "1px solid rgba(255,255,255,0.06)",
               height: 400,
@@ -1830,7 +1787,7 @@ function Gallery({ t }: { t: typeof translations.es }) {
                 style={{
                   position: "relative",
                   overflow: "hidden",
-                  borderRadius: 12,
+                  borderRadius: 2,
                   height: "100%",
                   minHeight: i === 0 ? 400 : 220,
                 }}
