@@ -954,7 +954,7 @@ function Services({ t }: { t: typeof translations.es }) {
 
         <div className="services-grid">
           {SERVICES_DATA.map((s, i) => (
-            <ServiceCard key={s.titleKey} service={s} t={t} delay={i * 0.08} />
+            <ServiceCard key={s.titleKey} service={s} t={t} delay={i * 0.15} />
           ))}
         </div>
       </div>

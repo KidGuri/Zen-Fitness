@@ -45,7 +45,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
 }
-@media (max-width: 640px) { .scroll-arrow { bottom: 24px; } }
+@media (max-width: 640px) { .scroll-arrow { bottom: 80px; } }
 
 /* Responsive nav */
 .nav-desktop { display: none; align-items: center; gap: 32px; }
