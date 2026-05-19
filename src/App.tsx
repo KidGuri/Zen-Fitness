@@ -2016,7 +2016,7 @@ function ClassSchedule({ t }: { t: typeof translations.es }) {
                       textTransform: "uppercase",
                       color: GOLD,
                       borderBottom: `1px solid rgba(160,136,77,0.2)`,
-                      background: "rgba(160,136,77,0.08)",
+                      background: "#151209",
                       position: "sticky",
                       left: 0,
                       zIndex: 2,
@@ -2059,7 +2059,7 @@ function ClassSchedule({ t }: { t: typeof translations.es }) {
                             ? "1px solid rgba(255,255,255,0.04)"
                             : "none",
                         whiteSpace: "nowrap",
-                        background: "rgba(0,0,0,0.3)",
+                        background: "#0d0d0d",
                         position: "sticky",
                         left: 0,
                         zIndex: 1,
