@@ -49,6 +49,27 @@ body {
   .nav-mobile-menu { display: none; }
 }
 
+/* About layout */
+.about-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+@media (min-width: 768px) {
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+}
+.about-text { order: 1; }
+.about-image { order: 2; }
+@media (max-width: 767px) {
+  .about-image { order: 1; }
+  .about-text { order: 2; }
+}
+
 /* About stats — always horizontal */
 .about-stats {
   display: flex;

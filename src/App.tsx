@@ -105,11 +105,9 @@ const translations = {
     aboutHeading1: "Más que un gimnasio,",
     aboutHeading2: "una familia",
     aboutP1:
-      "Desde 2014, Zen Fitness Club ha sido el referente del bienestar en Elche. Nuestro compromiso va más allá del ejercicio — creemos en la transformación integral de cada persona que cruza nuestras puertas.",
+      "Desde 2014, Zen Fitness Club ha sido el referente del bienestar en Elche. Nuestro compromiso va más allá del ejercicio — creemos en la transformación integral de cada persona.",
     aboutP2:
-      "Con monitores certificados, instalaciones de primer nivel y un ambiente que te hará sentir como en casa, somos el espacio donde tus objetivos se convierten en realidad.",
-    aboutP3:
-      "Ya sea que busques ganar fuerza, mejorar tu flexibilidad o simplemente encontrar un momento de paz en tu día, en Zen Fitness Club encontrarás lo que necesitas.",
+      "Monitores certificados, instalaciones de primer nivel y un ambiente familiar donde tus objetivos se convierten en realidad.",
     aboutStatYears: "Años",
     aboutStatReviews: "Opiniones",
     aboutStatStars: "Estrellas",
@@ -256,11 +254,9 @@ const translations = {
     aboutHeading1: "More than a gym,",
     aboutHeading2: "a family",
     aboutP1:
-      "Since 2014, Zen Fitness Club has been the benchmark of wellness in Elche. Our commitment goes beyond exercise — we believe in the total transformation of every person who walks through our doors.",
+      "Since 2014, Zen Fitness Club has been the benchmark of wellness in Elche. Our commitment goes beyond exercise — we believe in the total transformation of every person.",
     aboutP2:
-      "With certified trainers, top-tier facilities, and an atmosphere that will make you feel at home, we are the space where your goals become reality.",
-    aboutP3:
-      "Whether you want to build strength, improve your flexibility, or simply find a moment of peace in your day, at Zen Fitness Club you will find what you need.",
+      "Certified trainers, top-tier facilities, and a family atmosphere where your goals become reality.",
     aboutStatYears: "Years",
     aboutStatReviews: "Reviews",
     aboutStatStars: "Stars",
@@ -1041,77 +1037,108 @@ function About({ t }: { t: typeof translations.es }) {
       id="nosotros"
       style={{ background: "#0a0a0a", color: "#fff", padding: "120px 24px" }}
     >
-      <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
-        <Reveal>
-          <p
-            style={{
-              color: `${GOLD_LIGHT}cc`,
-              fontSize: 13,
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
-              marginBottom: 16,
-            }}
-          >
-            {t.aboutLabel}
-          </p>
-          <h2
-            style={{
-              fontSize: "clamp(28px, 5vw, 48px)",
-              letterSpacing: "-0.02em",
-              lineHeight: 1.1,
-              marginBottom: 32,
-            }}
-          >
-            <span style={{ fontWeight: 200 }}>{t.aboutHeading1}</span>{" "}
-            <span style={{ color: GOLD, fontWeight: 700 }}>{t.aboutHeading2}</span>
-          </h2>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 16,
-              color: "rgba(255,255,255,0.5)",
-              lineHeight: 1.8,
-              fontSize: 15,
-              textAlign: "center",
-            }}
-          >
-            <p>{t.aboutP1}</p>
-            <p>{t.aboutP2}</p>
-            <p>{t.aboutP3}</p>
-          </div>
-        </Reveal>
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div className="about-layout">
+          <Reveal className="about-text">
+            <p
+              style={{
+                color: `${GOLD_LIGHT}cc`,
+                fontSize: 13,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                marginBottom: 16,
+              }}
+            >
+              {t.aboutLabel}
+            </p>
+            <h2
+              style={{
+                fontSize: "clamp(28px, 5vw, 48px)",
+                letterSpacing: "-0.02em",
+                lineHeight: 1.1,
+                marginBottom: 28,
+              }}
+            >
+              <span style={{ fontWeight: 200 }}>{t.aboutHeading1}</span>
+              <br />
+              <span style={{ color: GOLD, fontWeight: 700 }}>{t.aboutHeading2}</span>
+            </h2>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 14,
+                color: "rgba(255,255,255,0.5)",
+                lineHeight: 1.8,
+                fontSize: 15,
+              }}
+            >
+              <p>{t.aboutP1}</p>
+              <p>{t.aboutP2}</p>
+            </div>
 
-        <Reveal delay={0.3}>
-          <div className="about-stats">
-            {stats.map((stat) => (
-              <div key={stat.label} style={{ textAlign: "center" }}>
-                <span
-                  style={{
-                    fontSize: "clamp(24px, 5vw, 36px)",
-                    fontWeight: 700,
-                    color: GOLD,
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  {stat.value}
-                </span>
-                <span
-                  style={{
-                    display: "block",
-                    color: "rgba(255,255,255,0.4)",
-                    fontSize: "clamp(9px, 1.5vw, 11px)",
-                    letterSpacing: "0.15em",
-                    textTransform: "uppercase",
-                    marginTop: 4,
-                  }}
-                >
-                  {stat.label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </Reveal>
+            <div className="about-stats" style={{ justifyContent: "flex-start" }}>
+              {stats.map((stat) => (
+                <div key={stat.label} style={{ textAlign: "center" }}>
+                  <span
+                    style={{
+                      fontSize: "clamp(24px, 5vw, 36px)",
+                      fontWeight: 700,
+                      color: GOLD,
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {stat.value}
+                  </span>
+                  <span
+                    style={{
+                      display: "block",
+                      color: "rgba(255,255,255,0.4)",
+                      fontSize: "clamp(9px, 1.5vw, 11px)",
+                      letterSpacing: "0.15em",
+                      textTransform: "uppercase",
+                      marginTop: 4,
+                    }}
+                  >
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.25} className="about-image">
+            <div
+              style={{
+                position: "relative",
+                overflow: "hidden",
+                borderRadius: 2,
+                height: "100%",
+                minHeight: 360,
+              }}
+            >
+              <FadeInImage
+                src="/gym-1.jpg"
+                alt={t.galleryAlt2}
+                loading="lazy"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "linear-gradient(to right, rgba(10,10,10,0.3), transparent 40%)",
+                  pointerEvents: "none",
+                }}
+              />
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
