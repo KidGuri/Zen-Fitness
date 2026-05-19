@@ -128,17 +128,20 @@ body {
 .salsa-layout {
   display: flex;
   flex-direction: column;
+  padding: 0 24px;
 }
-.salsa-image { order: 1; }
+.salsa-image { order: 1; max-height: 280px; overflow: hidden; border-radius: 2px; }
 .salsa-content { order: 2; }
 @media (min-width: 768px) {
   .salsa-layout {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: stretch;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 48px;
+    padding: 40px 24px;
   }
-  .salsa-image { order: 1; }
-  .salsa-content { order: 2; }
+  .salsa-image { max-height: none; width: 280px; flex-shrink: 0; }
+  .salsa-image > div > div { height: 100%; }
 }
 
 /* Infinite marquee */

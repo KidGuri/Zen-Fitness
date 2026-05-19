@@ -2226,8 +2226,6 @@ function SalsaBachataBanner({ t }: { t: typeof translations.es }) {
                 position: "relative",
                 overflow: "hidden",
                 borderRadius: 2,
-                height: "100%",
-                minHeight: 400,
               }}
             >
               <FadeInImage
@@ -2256,11 +2254,10 @@ function SalsaBachataBanner({ t }: { t: typeof translations.es }) {
           <Reveal delay={0.2} className="salsa-content">
             <div
               style={{
-                padding: "64px 24px",
+                padding: "40px 0",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                height: "100%",
               }}
             >
               <h2
