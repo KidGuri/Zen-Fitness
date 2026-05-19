@@ -160,6 +160,7 @@ const translations = {
     // Salsa Bachata CTA
     salsaHeading: "Apúntate a Salsa y Bachata",
     salsaSubtext: "Plazas limitadas!",
+    salsaDesc: "Clases para todos los niveles con \"El Cubano\". Desde iniciación hasta nivel avanzado, los sábados por la tarde y domingos por la mañana.",
     salsaCta: "Me apunto!",
 
     // Parallax
@@ -309,6 +310,7 @@ const translations = {
     // Salsa Bachata CTA
     salsaHeading: "Sign up for Salsa & Bachata",
     salsaSubtext: "Limited spots!",
+    salsaDesc: "Classes for all levels with \"El Cubano\". From beginner to advanced, on Saturday afternoons and Sunday mornings.",
     salsaCta: "I'm in!",
 
     // Parallax
@@ -2187,37 +2189,14 @@ function ClassSchedule({ t }: { t: typeof translations.es }) {
 }
 
 function SalsaBachataBanner({ t }: { t: typeof translations.es }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
-
   return (
     <section
-      ref={ref}
       style={{
         position: "relative",
         overflow: "hidden",
-        padding: "80px 24px",
+        background: "#0a0a0a",
       }}
     >
-      <motion.div
-        style={{
-          y,
-          position: "absolute",
-          inset: "-20% 0",
-          background: `linear-gradient(135deg, rgba(160,136,77,0.15) 0%, rgba(10,10,10,0.95) 50%, rgba(160,136,77,0.1) 100%)`,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: "rgba(10,10,10,0.7)",
-        }}
-      />
       <div
         style={{
           position: "absolute",
@@ -2239,67 +2218,112 @@ function SalsaBachataBanner({ t }: { t: typeof translations.es }) {
         }}
       />
 
-      <Reveal>
-        <div
-          style={{
-            position: "relative",
-            zIndex: 10,
-            maxWidth: 900,
-            margin: "0 auto",
-            textAlign: "center",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
-          <Music size={32} color={GOLD} style={{ marginBottom: 8 }} />
-          <h2
-            style={{
-              fontSize: "clamp(22px, 4vw, 36px)",
-              fontWeight: 700,
-              letterSpacing: "-0.01em",
-              lineHeight: 1.2,
-              color: "#fff",
-            }}
-          >
-            {t.salsaHeading}
-          </h2>
-          <p
-            style={{
-              fontSize: "clamp(14px, 2.5vw, 18px)",
-              color: GOLD_LIGHT,
-              fontWeight: 300,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              marginBottom: 16,
-            }}
-          >
-            {t.salsaSubtext}
-          </p>
-          <a
-            href="tel:965687768"
-            style={{
-              padding: "16px 40px",
-              background: GOLD,
-              color: "#000",
-              fontWeight: 700,
-              fontSize: 14,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 10,
-              transition: "all 0.3s",
-              borderRadius: 2,
-            }}
-          >
-            <Phone size={18} />
-            {t.salsaCta}
-          </a>
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div className="salsa-layout">
+          <Reveal className="salsa-image">
+            <div
+              style={{
+                position: "relative",
+                overflow: "hidden",
+                borderRadius: 2,
+                height: "100%",
+                minHeight: 400,
+              }}
+            >
+              <FadeInImage
+                src="/salsa-bachata.jpg"
+                alt="Salsa y Bachata con El Cubano"
+                loading="lazy"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "top center",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "linear-gradient(to left, rgba(10,10,10,0.6), transparent 60%)",
+                  pointerEvents: "none",
+                }}
+              />
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.2} className="salsa-content">
+            <div
+              style={{
+                padding: "64px 24px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                height: "100%",
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: "clamp(24px, 4vw, 38px)",
+                  fontWeight: 700,
+                  letterSpacing: "-0.01em",
+                  lineHeight: 1.15,
+                  color: "#fff",
+                  marginBottom: 8,
+                }}
+              >
+                {t.salsaHeading}
+              </h2>
+              <p
+                style={{
+                  fontSize: "clamp(13px, 2vw, 16px)",
+                  color: GOLD_LIGHT,
+                  fontWeight: 500,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  marginBottom: 20,
+                }}
+              >
+                {t.salsaSubtext}
+              </p>
+              <p
+                style={{
+                  color: "rgba(255,255,255,0.5)",
+                  fontSize: 14,
+                  lineHeight: 1.8,
+                  marginBottom: 32,
+                  maxWidth: 420,
+                }}
+              >
+                {t.salsaDesc}
+              </p>
+              <a
+                href="tel:965687768"
+                style={{
+                  padding: "16px 36px",
+                  background: GOLD,
+                  color: "#000",
+                  fontWeight: 700,
+                  fontSize: 13,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 10,
+                  transition: "all 0.3s",
+                  borderRadius: 2,
+                  alignSelf: "flex-start",
+                }}
+              >
+                <Phone size={16} />
+                {t.salsaCta}
+              </a>
+            </div>
+          </Reveal>
         </div>
-      </Reveal>
+      </div>
     </section>
   );
 }

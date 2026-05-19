@@ -124,6 +124,23 @@ body {
   }
 }
 
+/* Salsa banner layout */
+.salsa-layout {
+  display: flex;
+  flex-direction: column;
+}
+.salsa-image { order: 1; }
+.salsa-content { order: 2; }
+@media (min-width: 768px) {
+  .salsa-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+  .salsa-image { order: 1; }
+  .salsa-content { order: 2; }
+}
+
 /* Infinite marquee */
 @keyframes marquee-left {
   0% { transform: translateX(0); }
