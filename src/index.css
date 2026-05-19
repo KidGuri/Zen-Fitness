@@ -87,13 +87,17 @@ body {
 .schedule-table-wrapper::-webkit-scrollbar-track { background: transparent; }
 .schedule-table-wrapper::-webkit-scrollbar-thumb { background: #a0884d55; border-radius: 2px; }
 
-.schedule-info-grid {
+.pricing-strip {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  margin-top: 48px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 12px;
 }
-@media (min-width: 768px) { .schedule-info-grid { grid-template-columns: 1fr 1fr; gap: 24px; } }
+@media (min-width: 768px) {
+  .pricing-strip {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 24px;
+  }
+}
 
 /* Infinite marquee */
 @keyframes marquee-left {

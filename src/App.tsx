@@ -2073,107 +2073,84 @@ function ClassSchedule({ t }: { t: typeof translations.es }) {
         </Reveal>
 
         <Reveal delay={0.3}>
-          <div className="schedule-info-grid">
-            <div
+          <div
+            style={{
+              marginTop: 48,
+              background: "rgba(255,255,255,0.02)",
+              border: `1px solid rgba(160,136,77,0.12)`,
+              borderRadius: 2,
+              padding: "32px 24px",
+            }}
+          >
+            <h3
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderRadius: 2,
-                padding: "32px 24px",
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: GOLD,
+                marginBottom: 28,
+                textAlign: "center",
               }}
             >
-              <h3
-                style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  color: GOLD,
-                  marginBottom: 24,
-                }}
-              >
-                {t.pricingTitle}
-              </h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {PRICING_DATA.map((p) => (
-                  <div
-                    key={p.key}
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      paddingBottom: 12,
-                      borderBottom: "1px solid rgba(255,255,255,0.04)",
-                    }}
-                  >
-                    <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 14 }}>
-                      {t[p.key]}
-                    </span>
-                    <span style={{ color: GOLD_LIGHT, fontWeight: 600, fontSize: 15 }}>
-                      {p.price}
-                    </span>
-                  </div>
-                ))}
+              {t.pricingTitle}
+            </h3>
+            <div className="pricing-strip">
+              {PRICING_DATA.map((p) => (
                 <div
+                  key={p.key}
                   style={{
+                    textAlign: "center",
                     display: "flex",
-                    justifyContent: "space-between",
+                    flexDirection: "column",
                     alignItems: "center",
-                    marginTop: 4,
-                    padding: "12px 16px",
-                    background: "rgba(160,136,77,0.08)",
-                    borderRadius: 2,
+                    gap: 6,
                   }}
                 >
-                  <span style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, fontWeight: 500 }}>
-                    {t.pricingBallroom}
+                  <span
+                    style={{
+                      color: "rgba(255,255,255,0.5)",
+                      fontSize: 11,
+                      fontWeight: 500,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {t[p.key]}
                   </span>
-                  <span style={{ color: GOLD, fontWeight: 700, fontSize: 15 }}>
-                    {t.pricingBallroomPrice}
+                  <span
+                    style={{
+                      color: GOLD_LIGHT,
+                      fontWeight: 700,
+                      fontSize: "clamp(18px, 2.5vw, 24px)",
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {p.price}
                   </span>
                 </div>
-              </div>
+              ))}
             </div>
-
             <div
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: "1px solid rgba(255,255,255,0.06)",
+                marginTop: 24,
+                textAlign: "center",
+                padding: "12px 20px",
+                background: "rgba(160,136,77,0.08)",
                 borderRadius: 2,
-                padding: "32px 24px",
+                display: "inline-flex",
+                gap: 8,
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <h3
-                style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  color: GOLD,
-                  marginBottom: 24,
-                }}
-              >
-                {t.openingHoursTitle}
-              </h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                {[t.openingHoursWeekdays, t.openingHoursSaturdays, t.openingHoursSundays].map(
-                  (line) => (
-                    <div
-                      key={line}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 12,
-                        color: "rgba(255,255,255,0.6)",
-                        fontSize: 14,
-                      }}
-                    >
-                      <Clock size={16} color={`${GOLD}99`} style={{ flexShrink: 0 }} />
-                      {line}
-                    </div>
-                  )
-                )}
-              </div>
+              <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, fontWeight: 500 }}>
+                {t.pricingBallroom}
+              </span>
+              <span style={{ color: GOLD, fontWeight: 700, fontSize: 15 }}>
+                {t.pricingBallroomPrice}
+              </span>
             </div>
           </div>
         </Reveal>
@@ -2330,9 +2307,9 @@ export default function App() {
       <Gallery t={t} />
       <SectionDivider />
       <Schedule t={t} />
-      <SectionDivider />
-      <ClassSchedule t={t} />
       <SalsaBachataBanner t={t} />
+      <ClassSchedule t={t} />
+      <SectionDivider />
       <ParallaxDivider t={t} />
       <Reviews t={t} />
       <SectionDivider />
