@@ -134,6 +134,36 @@ const translations = {
     scheduleDay3: "Domingos",
     scheduleClosed: "Cerrado",
 
+    // Class Schedule
+    classScheduleLabel: "Clases y tarifas",
+    classScheduleHeading1: "Nuestro horario de",
+    classScheduleHeading2: "clases",
+    dayLunes: "Lunes",
+    dayMartes: "Martes",
+    dayMiercoles: "Miércoles",
+    dayJueves: "Jueves",
+    dayViernes: "Viernes",
+    daySabado: "Sábado",
+    dayDomingo: "Domingo",
+    pricingTitle: "Tarifas",
+    pricingMonthly: "Mensualidad",
+    pricingQuarterly: "Trimestre",
+    pricingSemester: "Semestre",
+    pricingAnnual: "Anual",
+    pricingBono: "Bono de 10",
+    pricingDay: "Día",
+    pricingBallroom: "Bailes de Salón",
+    pricingBallroomPrice: "40€/mes",
+    openingHoursTitle: "Horario del centro",
+    openingHoursWeekdays: "Lunes a Viernes: 7:45 a 22:00",
+    openingHoursSaturdays: "Sábados: 7:45 a 17:00",
+    openingHoursSundays: "Domingos: 7:45 a 12:00",
+
+    // Salsa Bachata CTA
+    salsaHeading: "Apúntate a Salsa y Bachata",
+    salsaSubtext: "Plazas limitadas!",
+    salsaCta: "Me apunto!",
+
     // Parallax
     parallaxText1: "Donde el esfuerzo se convierte en",
     parallaxText2: "resultados",
@@ -254,6 +284,36 @@ const translations = {
     scheduleDay2: "Saturdays",
     scheduleDay3: "Sundays",
     scheduleClosed: "Closed",
+
+    // Class Schedule
+    classScheduleLabel: "Classes & pricing",
+    classScheduleHeading1: "Our class",
+    classScheduleHeading2: "schedule",
+    dayLunes: "Monday",
+    dayMartes: "Tuesday",
+    dayMiercoles: "Wednesday",
+    dayJueves: "Thursday",
+    dayViernes: "Friday",
+    daySabado: "Saturday",
+    dayDomingo: "Sunday",
+    pricingTitle: "Pricing",
+    pricingMonthly: "Monthly",
+    pricingQuarterly: "Quarterly",
+    pricingSemester: "Semester",
+    pricingAnnual: "Annual",
+    pricingBono: "10-Pass",
+    pricingDay: "Day pass",
+    pricingBallroom: "Ballroom dance",
+    pricingBallroomPrice: "40€/mo",
+    openingHoursTitle: "Opening hours",
+    openingHoursWeekdays: "Mon to Fri: 7:45 to 22:00",
+    openingHoursSaturdays: "Saturdays: 7:45 to 17:00",
+    openingHoursSundays: "Sundays: 7:45 to 12:00",
+
+    // Salsa Bachata CTA
+    salsaHeading: "Sign up for Salsa & Bachata",
+    salsaSubtext: "Limited spots!",
+    salsaCta: "I'm in!",
 
     // Parallax
     parallaxText1: "Where effort becomes",
@@ -1059,9 +1119,9 @@ function About({ t }: { t: typeof translations.es }) {
 
 function Schedule({ t }: { t: typeof translations.es }) {
   const hours = [
-    { day: t.scheduleDay1, time: "7:00 – 22:00" },
-    { day: t.scheduleDay2, time: "7:00 – 15:00" },
-    { day: t.scheduleDay3, time: t.scheduleClosed },
+    { day: t.scheduleDay1, time: "7:45 – 22:00" },
+    { day: t.scheduleDay2, time: "7:45 – 17:00" },
+    { day: t.scheduleDay3, time: "7:45 – 12:00" },
   ];
 
   return (
@@ -1839,6 +1899,407 @@ function Gallery({ t }: { t: typeof translations.es }) {
   );
 }
 
+const CLASS_SCHEDULE_DATA = [
+  { time: "9:00 / 10:30", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "", domingo: "Salsa/Bachata K-0" },
+  { time: "9:30 / 10:30", lunes: "Funcional", martes: "", miercoles: "Funcional", jueves: "", viernes: "", sabado: "Baile", domingo: "" },
+  { time: "10:30", lunes: "", martes: "Pilates", miercoles: "", jueves: "Pilates", viernes: "", sabado: "", domingo: "Salsa/Bachata M-1 y M-2" },
+  { time: "16:30 / 17:30", lunes: "", martes: "Taekwondo -4", miercoles: "", jueves: "Taekwondo -4", viernes: "", sabado: "", domingo: "" },
+  { time: "17:30 / 18:30", lunes: "", martes: "Taekwondo +4", miercoles: "", jueves: "Taekwondo +4", viernes: "", sabado: "", domingo: "" },
+  { time: "17:30 / 19:00", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "", domingo: "Salsa/Bachata N-Alto" },
+  { time: "18:30 / 19:30", lunes: "Pilates", martes: "", miercoles: "Pilates", jueves: "", viernes: "", sabado: "", domingo: "" },
+  { time: "19:00", lunes: "", martes: "G.A.P", miercoles: "", jueves: "Body Zen / Zumba", viernes: "", sabado: "", domingo: "" },
+  { time: "19:30 / 20:30", lunes: "Zumba", martes: "", miercoles: "Zumba", jueves: "", viernes: "", sabado: "", domingo: "" },
+  { time: "20:00 / 21:00", lunes: "", martes: "Kyusho-Jitsu", miercoles: "", jueves: "Kyusho-Jitsu", viernes: "", sabado: "", domingo: "" },
+  { time: "20:30 / 21:30", lunes: "Karate", martes: "", miercoles: "Karate", jueves: "", viernes: "Karate", sabado: "", domingo: "" },
+];
+
+const PRICING_DATA = [
+  { key: "pricingMonthly" as const, price: "44€" },
+  { key: "pricingQuarterly" as const, price: "120€" },
+  { key: "pricingSemester" as const, price: "220€" },
+  { key: "pricingAnnual" as const, price: "375€" },
+  { key: "pricingBono" as const, price: "38€" },
+  { key: "pricingDay" as const, price: "7€" },
+];
+
+function ClassSchedule({ t }: { t: typeof translations.es }) {
+  const dayKeys = [
+    { key: "dayLunes" as const, field: "lunes" as const },
+    { key: "dayMartes" as const, field: "martes" as const },
+    { key: "dayMiercoles" as const, field: "miercoles" as const },
+    { key: "dayJueves" as const, field: "jueves" as const },
+    { key: "dayViernes" as const, field: "viernes" as const },
+    { key: "daySabado" as const, field: "sabado" as const },
+    { key: "dayDomingo" as const, field: "domingo" as const },
+  ];
+
+  return (
+    <section
+      id="clases"
+      style={{ background: "#0a0a0a", color: "#fff", padding: "120px 24px" }}
+    >
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <Reveal>
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <p
+              style={{
+                color: `${GOLD_LIGHT}cc`,
+                fontSize: 13,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                marginBottom: 16,
+              }}
+            >
+              {t.classScheduleLabel}
+            </p>
+            <h2
+              style={{
+                fontSize: "clamp(28px, 5vw, 48px)",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              <span style={{ fontWeight: 200 }}>{t.classScheduleHeading1}</span>{" "}
+              <span style={{ color: GOLD, fontWeight: 700 }}>{t.classScheduleHeading2}</span>
+            </h2>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.15}>
+          <div className="schedule-table-wrapper">
+            <table
+              style={{
+                width: "100%",
+                minWidth: 800,
+                borderCollapse: "separate",
+                borderSpacing: 0,
+                background: "rgba(255,255,255,0.02)",
+                border: `1px solid rgba(160,136,77,0.15)`,
+                borderRadius: 2,
+              }}
+            >
+              <thead>
+                <tr>
+                  <th
+                    style={{
+                      padding: "16px 12px",
+                      textAlign: "left",
+                      fontSize: 11,
+                      fontWeight: 700,
+                      letterSpacing: "0.15em",
+                      textTransform: "uppercase",
+                      color: GOLD,
+                      borderBottom: `1px solid rgba(160,136,77,0.2)`,
+                      background: "rgba(160,136,77,0.08)",
+                      position: "sticky",
+                      left: 0,
+                      zIndex: 2,
+                    }}
+                  >
+                    {t.scheduleLabel}
+                  </th>
+                  {dayKeys.map((d) => (
+                    <th
+                      key={d.key}
+                      style={{
+                        padding: "16px 8px",
+                        textAlign: "center",
+                        fontSize: 11,
+                        fontWeight: 700,
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase",
+                        color: GOLD,
+                        borderBottom: `1px solid rgba(160,136,77,0.2)`,
+                        background: "rgba(160,136,77,0.08)",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {t[d.key]}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {CLASS_SCHEDULE_DATA.map((row, i) => (
+                  <tr key={row.time}>
+                    <td
+                      style={{
+                        padding: "14px 12px",
+                        fontSize: 13,
+                        fontWeight: 600,
+                        color: GOLD_LIGHT,
+                        borderBottom:
+                          i < CLASS_SCHEDULE_DATA.length - 1
+                            ? "1px solid rgba(255,255,255,0.04)"
+                            : "none",
+                        whiteSpace: "nowrap",
+                        background: "rgba(0,0,0,0.3)",
+                        position: "sticky",
+                        left: 0,
+                        zIndex: 1,
+                      }}
+                    >
+                      {row.time}
+                    </td>
+                    {dayKeys.map((d) => (
+                      <td
+                        key={d.key}
+                        style={{
+                          padding: "14px 8px",
+                          textAlign: "center",
+                          fontSize: 12,
+                          fontWeight: row[d.field] ? 500 : 400,
+                          color: row[d.field]
+                            ? "rgba(255,255,255,0.85)"
+                            : "rgba(255,255,255,0.1)",
+                          borderBottom:
+                            i < CLASS_SCHEDULE_DATA.length - 1
+                              ? "1px solid rgba(255,255,255,0.04)"
+                              : "none",
+                          background: row[d.field]
+                            ? "rgba(160,136,77,0.06)"
+                            : "transparent",
+                          transition: "background 0.3s",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {row[d.field] || "—"}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.3}>
+          <div className="schedule-info-grid">
+            <div
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                borderRadius: 2,
+                padding: "32px 24px",
+              }}
+            >
+              <h3
+                style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  color: GOLD,
+                  marginBottom: 24,
+                }}
+              >
+                {t.pricingTitle}
+              </h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {PRICING_DATA.map((p) => (
+                  <div
+                    key={p.key}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      paddingBottom: 12,
+                      borderBottom: "1px solid rgba(255,255,255,0.04)",
+                    }}
+                  >
+                    <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 14 }}>
+                      {t[p.key]}
+                    </span>
+                    <span style={{ color: GOLD_LIGHT, fontWeight: 600, fontSize: 15 }}>
+                      {p.price}
+                    </span>
+                  </div>
+                ))}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginTop: 4,
+                    padding: "12px 16px",
+                    background: "rgba(160,136,77,0.08)",
+                    borderRadius: 2,
+                  }}
+                >
+                  <span style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, fontWeight: 500 }}>
+                    {t.pricingBallroom}
+                  </span>
+                  <span style={{ color: GOLD, fontWeight: 700, fontSize: 15 }}>
+                    {t.pricingBallroomPrice}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.06)",
+                borderRadius: 2,
+                padding: "32px 24px",
+              }}
+            >
+              <h3
+                style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  color: GOLD,
+                  marginBottom: 24,
+                }}
+              >
+                {t.openingHoursTitle}
+              </h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                {[t.openingHoursWeekdays, t.openingHoursSaturdays, t.openingHoursSundays].map(
+                  (line) => (
+                    <div
+                      key={line}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                        color: "rgba(255,255,255,0.6)",
+                        fontSize: 14,
+                      }}
+                    >
+                      <Clock size={16} color={`${GOLD}99`} style={{ flexShrink: 0 }} />
+                      {line}
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function SalsaBachataBanner({ t }: { t: typeof translations.es }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+
+  return (
+    <section
+      ref={ref}
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        padding: "80px 24px",
+      }}
+    >
+      <motion.div
+        style={{
+          y,
+          position: "absolute",
+          inset: "-20% 0",
+          background: `linear-gradient(135deg, rgba(160,136,77,0.15) 0%, rgba(10,10,10,0.95) 50%, rgba(160,136,77,0.1) 100%)`,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "rgba(10,10,10,0.7)",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 1,
+          background: `linear-gradient(to right, transparent, ${GOLD}60, transparent)`,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 1,
+          background: `linear-gradient(to right, transparent, ${GOLD}60, transparent)`,
+        }}
+      />
+
+      <Reveal>
+        <div
+          style={{
+            position: "relative",
+            zIndex: 10,
+            maxWidth: 900,
+            margin: "0 auto",
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          <Music size={32} color={GOLD} style={{ marginBottom: 8 }} />
+          <h2
+            style={{
+              fontSize: "clamp(22px, 4vw, 36px)",
+              fontWeight: 700,
+              letterSpacing: "-0.01em",
+              lineHeight: 1.2,
+              color: "#fff",
+            }}
+          >
+            {t.salsaHeading}
+          </h2>
+          <p
+            style={{
+              fontSize: "clamp(14px, 2.5vw, 18px)",
+              color: GOLD_LIGHT,
+              fontWeight: 300,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              marginBottom: 16,
+            }}
+          >
+            {t.salsaSubtext}
+          </p>
+          <a
+            href="tel:965687768"
+            style={{
+              padding: "16px 40px",
+              background: GOLD,
+              color: "#000",
+              fontWeight: 700,
+              fontSize: 14,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              transition: "all 0.3s",
+              borderRadius: 2,
+            }}
+          >
+            <Phone size={18} />
+            {t.salsaCta}
+          </a>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
 function SectionDivider() {
   return (
     <div
@@ -1869,6 +2330,9 @@ export default function App() {
       <Gallery t={t} />
       <SectionDivider />
       <Schedule t={t} />
+      <SectionDivider />
+      <ClassSchedule t={t} />
+      <SalsaBachataBanner t={t} />
       <ParallaxDivider t={t} />
       <Reviews t={t} />
       <SectionDivider />
