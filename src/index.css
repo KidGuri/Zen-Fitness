@@ -34,9 +34,9 @@ body {
 ::-webkit-scrollbar-thumb { background: #a0884d; border-radius: 3px; }
 
 /* Hero logo */
-.hero-logo { width: min(220px, 50vw); }
-@media (min-width: 640px) { .hero-logo { width: min(320px, 60vw); } }
-@media (min-width: 1024px) { .hero-logo { width: 360px; } }
+.hero-logo { width: min(160px, 40vw); }
+@media (min-width: 640px) { .hero-logo { width: min(220px, 50vw); } }
+@media (min-width: 1024px) { .hero-logo { width: 260px; } }
 
 
 /* Responsive nav */
@@ -95,6 +95,10 @@ body {
 .gallery-featured { grid-column: 1 / -1; }
 @media (min-width: 640px) { .gallery-grid { gap: 12px; } }
 @media (min-width: 1024px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: auto auto; gap: 16px; } .gallery-featured { grid-column: 1 / 2; grid-row: 1 / 3; } }
+
+/* HD gallery grid */
+.gallery-grid-hd { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (min-width: 768px) { .gallery-grid-hd { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
 
 
 /* Schedule table */

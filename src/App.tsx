@@ -14,6 +14,8 @@ import {
   Music,
   Menu,
   X,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 
 function Instagram({
@@ -203,6 +205,7 @@ const translations = {
     contactHeading2: "empezar?",
     contactPhone: "Teléfono",
     contactEmail: "Email",
+    contactInstagram: "Instagram",
     contactLocation: "Ubicación",
 
     // Footer
@@ -353,6 +356,7 @@ const translations = {
     contactHeading2: "get started?",
     contactPhone: "Phone",
     contactEmail: "Email",
+    contactInstagram: "Instagram",
     contactLocation: "Location",
 
     // Footer
@@ -791,7 +795,7 @@ function Hero({ t }: { t: typeof translations.es }) {
           padding: "0 20px",
           maxWidth: 900,
           width: "100%",
-          marginTop: "-8vh",
+          marginTop: "6vh",
         }}
       >
         <motion.div
@@ -803,7 +807,7 @@ function Hero({ t }: { t: typeof translations.es }) {
             src="/logo.png"
             alt="Zen Fitness Club"
             className="hero-logo"
-            style={{ margin: "0 auto 32px" }}
+            style={{ margin: "0 auto 64px" }}
           />
         </motion.div>
 
@@ -830,7 +834,7 @@ function Hero({ t }: { t: typeof translations.es }) {
             fontSize: "clamp(28px, 6vw, 72px)",
             letterSpacing: "-0.02em",
             lineHeight: 1.1,
-            marginBottom: 32,
+            marginBottom: "clamp(32px, 10vh, 96px)",
           }}
         >
           <span style={{ fontWeight: 200 }}>{t.heroHeading1}</span>
@@ -1115,12 +1119,11 @@ function About({ t }: { t: typeof translations.es }) {
                 position: "relative",
                 overflow: "hidden",
                 borderRadius: 2,
-                height: "100%",
-                minHeight: 360,
+                aspectRatio: "1 / 1",
               }}
             >
               <FadeInImage
-                src="/gym-1.jpg"
+                src="/hd-horizontal.00_00_06_21.still003.jpg"
                 alt={t.galleryAlt2}
                 loading="lazy"
                 style={{
@@ -1562,6 +1565,12 @@ function Contact({ t }: { t: typeof translations.es }) {
       href: `mailto:${EMAIL}`,
     },
     {
+      title: t.contactInstagram,
+      info: "@zengymfitness",
+      href: INSTAGRAM,
+      external: true,
+    },
+    {
       title: t.contactLocation,
       info: ADDRESS,
       href: MAPS_URL,
@@ -1826,11 +1835,18 @@ function ParallaxDivider({ t }: { t: typeof translations.es }) {
 
 function Gallery({ t }: { t: typeof translations.es }) {
   const images = [
-    { src: "/gym-4.jpg", alt: t.galleryAlt1 },
-    { src: "/gym-1.jpg", alt: t.galleryAlt2 },
-    { src: "/gym-2.jpg", alt: t.galleryAlt3 },
-    { src: "/gym-3.jpg", alt: t.galleryAlt4 },
-    { src: "/gym-5.jpg", alt: t.galleryAlt5 },
+    "/hd-horizontal.00_00_03_09.still001.jpg",
+    "/hd-horizontal.00_00_05_21.still002.jpg",
+    "/hd-horizontal.00_00_10_14.still004.jpg",
+    "/hd-horizontal.00_00_13_04.still005.jpg",
+    "/hd-horizontal.00_00_17_15.still006.jpg",
+    "/hd-horizontal.00_00_22_13.still007.jpg",
+    "/hd-horizontal.00_00_25_07.still008.jpg",
+    "/hd-horizontal.00_00_27_11.still009.jpg",
+    "/hd-horizontal.00_00_30_21.still010.jpg",
+    "/hd-horizontal.00_00_32_19.still011.jpg",
+    "/hd-horizontal.00_00_36_23.still012.jpg",
+    "/hd-horizontal.00_00_40_03.still013.jpg",
   ];
 
   return (
@@ -1864,25 +1880,20 @@ function Gallery({ t }: { t: typeof translations.es }) {
           </div>
         </Reveal>
 
-        <div className="gallery-grid">
-          {images.map((img, i) => (
-            <Reveal
-              key={img.src}
-              delay={i * 0.2}
-              className={i === 0 ? "gallery-featured" : ""}
-            >
+        <div className="gallery-grid-hd">
+          {images.map((src, i) => (
+            <Reveal key={src} delay={i * 0.1}>
               <div
                 style={{
                   position: "relative",
                   overflow: "hidden",
                   borderRadius: 2,
-                  height: "100%",
-                  minHeight: i === 0 ? 400 : 220,
+                  aspectRatio: "16 / 9",
                 }}
               >
                 <FadeInImage
-                  src={img.src}
-                  alt={img.alt}
+                  src={src}
+                  alt={`${t.galleryLabel} ${i + 1}`}
                   loading="lazy"
                   style={{
                     width: "100%",
@@ -1906,19 +1917,6 @@ function Gallery({ t }: { t: typeof translations.es }) {
                     pointerEvents: "none",
                   }}
                 />
-                <span
-                  style={{
-                    position: "absolute",
-                    bottom: 16,
-                    left: 16,
-                    color: "rgba(255,255,255,0.7)",
-                    fontSize: 13,
-                    fontWeight: 500,
-                    letterSpacing: "0.05em",
-                  }}
-                >
-                  {img.alt}
-                </span>
               </div>
             </Reveal>
           ))}
@@ -2325,6 +2323,83 @@ function SalsaBachataBanner({ t }: { t: typeof translations.es }) {
   );
 }
 
+function VideoSection({ src }: { src: string }) {
+  const ref = useRef(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const [muted, setMuted] = useState(true);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setMuted(videoRef.current.muted);
+    }
+  };
+
+  return (
+    <section
+      ref={ref}
+      style={{
+        background: "#0a0a0a",
+        padding: "0 24px",
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+        transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
+        style={{ maxWidth: 1280, margin: "0 auto" }}
+      >
+        <div
+          style={{
+            position: "relative",
+            overflow: "hidden",
+            borderRadius: 2,
+            border: "1px solid rgba(255,255,255,0.06)",
+          }}
+        >
+          <video
+            ref={videoRef}
+            src={src}
+            autoPlay
+            muted
+            loop
+            playsInline
+            style={{
+              width: "100%",
+              display: "block",
+            }}
+          />
+          <button
+            onClick={toggleMute}
+            style={{
+              position: "absolute",
+              bottom: 16,
+              right: 16,
+              width: 44,
+              height: 44,
+              borderRadius: "50%",
+              border: "none",
+              background: "rgba(0,0,0,0.6)",
+              backdropFilter: "blur(8px)",
+              color: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              transition: "background 0.3s",
+            }}
+            onMouseOver={(e) => (e.currentTarget.style.background = `rgba(160,136,77,0.7)`)}
+            onMouseOut={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.6)")}
+          >
+            {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+          </button>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
 function SectionDivider() {
   return (
     <div
@@ -2350,18 +2425,20 @@ export default function App() {
       <SectionDivider />
       <Services t={t} />
       <SectionDivider />
+      <VideoSection src="/zen-fitness-local.mp4" />
+      <SectionDivider />
       <About t={t} />
       <SectionDivider />
       <Gallery t={t} />
       <SectionDivider />
       <Schedule t={t} />
+      <SectionDivider />
+      <VideoSection src="/zen-fitness-jaime.mp4" />
       <SalsaBachataBanner t={t} />
       <ClassSchedule t={t} />
       <SectionDivider />
       <ParallaxDivider t={t} />
       <Reviews t={t} />
-      <SectionDivider />
-      <CTA t={t} />
       <SectionDivider />
       <Contact t={t} />
       <Footer t={t} />
