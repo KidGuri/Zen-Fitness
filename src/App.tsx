@@ -2227,11 +2227,27 @@ function SalsaBachataBanner({ t }: { t: typeof translations.es }) {
   );
 }
 
-function VideoSection({ src }: { src: string }) {
+function VideoSection({ src, poster }: { src: string; poster?: string }) {
   const ref = useRef(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const inView = useInView(ref, { once: false, margin: "200px" });
   const [muted, setMuted] = useState(true);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (inView) {
+      if (!started) {
+        video.src = src;
+        video.load();
+        setStarted(true);
+      }
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [inView, src, started]);
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -2250,7 +2266,7 @@ function VideoSection({ src }: { src: string }) {
     >
       <motion.div
         initial={{ opacity: 0, y: 40 }}
-        animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+        animate={started && inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
         transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
         style={{ maxWidth: 1280, margin: "0 auto" }}
       >
@@ -2260,15 +2276,16 @@ function VideoSection({ src }: { src: string }) {
             overflow: "hidden",
             borderRadius: 2,
             border: "1px solid rgba(255,255,255,0.06)",
+            background: "#111",
           }}
         >
           <video
             ref={videoRef}
-            src={src}
-            autoPlay
             muted
             loop
             playsInline
+            preload="none"
+            poster={poster}
             style={{
               width: "100%",
               display: "block",
@@ -2329,7 +2346,7 @@ export default function App() {
       <SectionDivider />
       <Services t={t} />
       <SectionDivider />
-      <VideoSection src="/zen-fitness-local.mp4" />
+      <VideoSection src="/zen-fitness-local.mp4" poster="/hd-horizontal.00_00_03_09.still001.jpg" />
       <SectionDivider />
       <About t={t} />
       <SectionDivider />
@@ -2337,7 +2354,7 @@ export default function App() {
       <SectionDivider />
       <Schedule t={t} />
       <SectionDivider />
-      <VideoSection src="/zen-fitness-jaime.mp4" />
+      <VideoSection src="/zen-fitness-jaime.mp4" poster="/hd-horizontal.00_00_25_07.still008.jpg" />
       <SalsaBachataBanner t={t} />
       <ClassSchedule t={t} />
       <SectionDivider />
