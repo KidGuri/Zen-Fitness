@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import {
   Phone,
-  Mail,
   Clock,
   Star,
   ChevronDown,
@@ -46,7 +45,6 @@ function Instagram({
 }
 
 const PHONE = "965 68 77 68";
-const EMAIL = "zenfitness2014@gmail.com";
 const ADDRESS = "Carrer Llebeig 1, 03195, Elche, Alicante";
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Gimnasio+Zen+Fitness+Club+El+Altet";
@@ -204,7 +202,6 @@ const translations = {
     contactHeading1: "¿Listo para",
     contactHeading2: "empezar?",
     contactPhone: "Teléfono",
-    contactEmail: "Email",
     contactInstagram: "Instagram",
     contactLocation: "Ubicación",
 
@@ -355,7 +352,6 @@ const translations = {
     contactHeading1: "Ready to",
     contactHeading2: "get started?",
     contactPhone: "Phone",
-    contactEmail: "Email",
     contactInstagram: "Instagram",
     contactLocation: "Location",
 
@@ -1464,11 +1460,6 @@ function Contact({ t }: { t: typeof translations.es }) {
       href: `tel:${PHONE.replace(/\s/g, "")}`,
     },
     {
-      title: t.contactEmail,
-      info: EMAIL,
-      href: `mailto:${EMAIL}`,
-    },
-    {
       title: t.contactInstagram,
       info: "@zengymfitness",
       href: INSTAGRAM,
@@ -1634,7 +1625,6 @@ function Footer({ t }: { t: typeof translations.es }) {
               href: `tel:${PHONE.replace(/\s/g, "")}`,
               external: false,
             },
-            { icon: Mail, href: `mailto:${EMAIL}`, external: false },
           ].map((s, i) => (
             <a
               key={i}
