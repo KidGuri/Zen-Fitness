@@ -49,7 +49,7 @@ const PHONE = "965 68 77 68";
 const EMAIL = "zenfitness2014@gmail.com";
 const ADDRESS = "Carrer Llebeig 1, 03195, Elche, Alicante";
 const MAPS_URL =
-  "https://www.google.com/maps/search/?api=1&query=Zen+Fitness+Club+Elche";
+  "https://www.google.com/maps/search/?api=1&query=Gimnasio+Zen+Fitness+Club+El+Altet";
 const INSTAGRAM = "https://www.instagram.com/zengymfitness/";
 const GOOGLE_REVIEWS =
   "https://search.google.com/local/reviews?placeid=ChIJx0Y8Q0jsYA0RhDxzZlYzjQI";
@@ -1584,7 +1584,7 @@ function Contact({ t }: { t: typeof translations.es }) {
             }}
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3131.5!2d-0.6988!3d38.2669!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzjCsDE2JzAwLjgiTiAwwrA0MScwNy43Ilc!5e0!3m2!1ses!2ses!4v1"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1565.5!2d-0.5240!3d38.2830!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48c4ec48437c46c7%3A0x28d33565673c3c84!2sGimnasio%20Zen%20Fitness%20Club!5e0!3m2!1ses!2ses!4v1"
               width="100%"
               height="100%"
               style={{
