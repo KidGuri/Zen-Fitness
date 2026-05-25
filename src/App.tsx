@@ -77,7 +77,7 @@ const translations = {
     heroBtn2: "Descubrir más",
     heroStars: "4.8 estrellas",
     heroReviews: "118 opiniones",
-    heroSince: "Desde 2014",
+    heroSince: "Desde 2005",
 
     // Services
     servicesLabel: "Nuestros servicios",
@@ -86,9 +86,9 @@ const translations = {
     serviceTitle1: "Sala Fitness",
     serviceDesc1:
       "Equipamiento de última generación para entrenamientos de fuerza y resistencia en un espacio amplio y motivador.",
-    serviceTitle2: "Spinning",
+    serviceTitle2: "Salsa y Bachata",
     serviceDesc2:
-      "Clases de ciclismo indoor de alta intensidad con música envolvente y entrenadores certificados.",
+      "Clases para todos los niveles con ritmos caribeños. Aprende a bailar y diviértete en un ambiente único.",
     serviceTitle3: "Body Zen & Pilates",
     serviceDesc3:
       "Sesiones enfocadas en flexibilidad, equilibrio y bienestar corporal. Mente y cuerpo en armonía.",
@@ -98,7 +98,7 @@ const translations = {
     serviceTitle5: "Taekwondo & Defensa Personal",
     serviceDesc5:
       "Artes marciales para todas las edades. Disciplina, confianza y autodefensa en cada sesión.",
-    serviceTitle6: "Zumba & Latino",
+    serviceTitle6: "Zumba",
     serviceDesc6:
       "Baila, suda y diviértete con ritmos latinos. Fitness y diversión en cada clase.",
 
@@ -107,7 +107,7 @@ const translations = {
     aboutHeading1: "Más que un gimnasio,",
     aboutHeading2: "una familia",
     aboutP1:
-      "Desde 2014, Zen Fitness Club ha sido el referente del bienestar en Elche. Nuestro compromiso va más allá del ejercicio — creemos en la transformación integral de cada persona.",
+      "Desde 2005, Zen Fitness Club ha sido el referente del bienestar en Elche. Nuestro compromiso va más allá del ejercicio — creemos en la transformación integral de cada persona.",
     aboutP2:
       "Monitores certificados, instalaciones de primer nivel y un ambiente familiar donde tus objetivos se convierten en realidad.",
     aboutStatYears: "Años",
@@ -228,7 +228,7 @@ const translations = {
     heroBtn2: "Discover more",
     heroStars: "4.8 stars",
     heroReviews: "118 reviews",
-    heroSince: "Since 2014",
+    heroSince: "Since 2005",
 
     // Services
     servicesLabel: "Our services",
@@ -237,9 +237,9 @@ const translations = {
     serviceTitle1: "Fitness Room",
     serviceDesc1:
       "State-of-the-art equipment for strength and endurance training in a spacious and motivating environment.",
-    serviceTitle2: "Spinning",
+    serviceTitle2: "Salsa & Bachata",
     serviceDesc2:
-      "High-intensity indoor cycling classes with immersive music and certified trainers.",
+      "Classes for all levels with Caribbean rhythms. Learn to dance and have fun in a unique atmosphere.",
     serviceTitle3: "Body Zen & Pilates",
     serviceDesc3:
       "Sessions focused on flexibility, balance, and body wellness. Mind and body in harmony.",
@@ -249,7 +249,7 @@ const translations = {
     serviceTitle5: "Taekwondo & Self-Defense",
     serviceDesc5:
       "Martial arts for all ages. Discipline, confidence, and self-defense in every session.",
-    serviceTitle6: "Zumba & Latin",
+    serviceTitle6: "Zumba",
     serviceDesc6:
       "Dance, sweat, and have fun with Latin rhythms. Fitness and fun in every class.",
 
@@ -258,7 +258,7 @@ const translations = {
     aboutHeading1: "More than a gym,",
     aboutHeading2: "a family",
     aboutP1:
-      "Since 2014, Zen Fitness Club has been the benchmark of wellness in Elche. Our commitment goes beyond exercise — we believe in the total transformation of every person.",
+      "Since 2005, Zen Fitness Club has been the benchmark of wellness in Elche. Our commitment goes beyond exercise — we believe in the total transformation of every person.",
     aboutP2:
       "Certified trainers, top-tier facilities, and a family atmosphere where your goals become reality.",
     aboutStatYears: "Years",
@@ -366,11 +366,11 @@ const translations = {
 
 const SERVICES_DATA = [
   { icon: Dumbbell, titleKey: "serviceTitle1" as const, descKey: "serviceDesc1" as const },
-  { icon: Flame, titleKey: "serviceTitle2" as const, descKey: "serviceDesc2" as const },
+  { icon: Music, titleKey: "serviceTitle2" as const, descKey: "serviceDesc2" as const },
   { icon: Heart, titleKey: "serviceTitle3" as const, descKey: "serviceDesc3" as const },
   { icon: Users, titleKey: "serviceTitle4" as const, descKey: "serviceDesc4" as const },
   { icon: Shield, titleKey: "serviceTitle5" as const, descKey: "serviceDesc5" as const },
-  { icon: Music, titleKey: "serviceTitle6" as const, descKey: "serviceDesc6" as const },
+  { icon: Flame, titleKey: "serviceTitle6" as const, descKey: "serviceDesc6" as const },
 ];
 
 const REVIEWS_DATA = [
@@ -1032,7 +1032,7 @@ function Services({ t }: { t: typeof translations.es }) {
 
 function About({ t }: { t: typeof translations.es }) {
   const stats = [
-    { value: "+10", label: t.aboutStatYears },
+    { value: "+20", label: t.aboutStatYears },
     { value: "118", label: t.aboutStatReviews },
     { value: "4.8", label: t.aboutStatStars },
     { value: "6+", label: t.aboutStatDisciplines },
