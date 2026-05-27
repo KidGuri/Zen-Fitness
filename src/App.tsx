@@ -2112,6 +2112,33 @@ function SalsaBachataBanner({ t }: { t: typeof translations.es }) {
 
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <div className="salsa-layout">
+          <Reveal className="salsa-heading">
+            <h2
+              style={{
+                fontSize: "clamp(24px, 4vw, 38px)",
+                fontWeight: 700,
+                letterSpacing: "-0.01em",
+                lineHeight: 1.15,
+                color: "#fff",
+                marginBottom: 8,
+              }}
+            >
+              {t.salsaHeading}
+            </h2>
+            <p
+              style={{
+                fontSize: "clamp(13px, 2vw, 16px)",
+                color: GOLD_LIGHT,
+                fontWeight: 500,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                marginBottom: 0,
+              }}
+            >
+              {t.salsaSubtext}
+            </p>
+          </Reveal>
+
           <Reveal className="salsa-image">
             <div
               style={{
@@ -2145,36 +2172,38 @@ function SalsaBachataBanner({ t }: { t: typeof translations.es }) {
           <Reveal delay={0.2} className="salsa-content">
             <div
               style={{
-                padding: "40px 0",
+                padding: "20px 0 40px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
               }}
             >
-              <h2
-                style={{
-                  fontSize: "clamp(24px, 4vw, 38px)",
-                  fontWeight: 700,
-                  letterSpacing: "-0.01em",
-                  lineHeight: 1.15,
-                  color: "#fff",
-                  marginBottom: 8,
-                }}
-              >
-                {t.salsaHeading}
-              </h2>
-              <p
-                style={{
-                  fontSize: "clamp(13px, 2vw, 16px)",
-                  color: GOLD_LIGHT,
-                  fontWeight: 500,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  marginBottom: 20,
-                }}
-              >
-                {t.salsaSubtext}
-              </p>
+              <div className="salsa-heading-desktop">
+                <h2
+                  style={{
+                    fontSize: "clamp(24px, 4vw, 38px)",
+                    fontWeight: 700,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1.15,
+                    color: "#fff",
+                    marginBottom: 8,
+                  }}
+                >
+                  {t.salsaHeading}
+                </h2>
+                <p
+                  style={{
+                    fontSize: "clamp(13px, 2vw, 16px)",
+                    color: GOLD_LIGHT,
+                    fontWeight: 500,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    marginBottom: 20,
+                  }}
+                >
+                  {t.salsaSubtext}
+                </p>
+              </div>
               <p
                 style={{
                   color: "rgba(255,255,255,0.5)",
