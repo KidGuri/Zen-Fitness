@@ -134,7 +134,7 @@ body {
   flex-direction: column;
   padding: 0 24px;
 }
-.salsa-image { order: 1; max-height: 280px; overflow: hidden; border-radius: 2px; }
+.salsa-image { order: 1; border-radius: 2px; }
 .salsa-content { order: 2; }
 .salsa-content a { align-self: center; }
 @media (min-width: 768px) { .salsa-content a { align-self: flex-start; } }

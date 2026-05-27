@@ -2126,9 +2126,8 @@ function SalsaBachataBanner({ t }: { t: typeof translations.es }) {
                 loading="lazy"
                 style={{
                   width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  objectPosition: "top center",
+                  display: "block",
+                  objectFit: "contain",
                 }}
               />
               <div
