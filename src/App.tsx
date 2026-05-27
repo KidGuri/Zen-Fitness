@@ -1821,12 +1821,12 @@ function Gallery({ t }: { t: typeof translations.es }) {
 }
 
 const CLASS_SCHEDULE_DATA = [
-  { time: "9:00 / 10:30", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "", domingo: "Salsa/Bachata K-0" },
-  { time: "9:30 / 10:30", lunes: "Funcional", martes: "", miercoles: "Funcional", jueves: "", viernes: "", sabado: "Baile", domingo: "" },
-  { time: "10:30", lunes: "", martes: "Pilates", miercoles: "", jueves: "Pilates", viernes: "", sabado: "", domingo: "Salsa/Bachata M-1 y M-2" },
+  { time: "9:00 / 10:30", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "", domingo: "Salsa/Bachata N-0" },
+  { time: "9:30 / 10:30", lunes: "Funcional", martes: "", miercoles: "Funcional", jueves: "", viernes: "Baile", sabado: "", domingo: "" },
+  { time: "10:30", lunes: "", martes: "Pilates", miercoles: "", jueves: "Pilates", viernes: "", sabado: "", domingo: "Salsa/Bachata N-1 y N-2" },
   { time: "16:30 / 17:30", lunes: "", martes: "Taekwondo -4", miercoles: "", jueves: "Taekwondo -4", viernes: "", sabado: "", domingo: "" },
   { time: "17:30 / 18:30", lunes: "", martes: "Taekwondo +4", miercoles: "", jueves: "Taekwondo +4", viernes: "", sabado: "", domingo: "" },
-  { time: "17:30 / 19:00", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "", domingo: "Salsa/Bachata N-Alto" },
+  { time: "17:30 / 19:00", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "Salsa/Bachata N-Alto", domingo: "" },
   { time: "18:30 / 19:30", lunes: "Pilates", martes: "", miercoles: "Pilates", jueves: "", viernes: "", sabado: "", domingo: "" },
   { time: "19:00", lunes: "", martes: "G.A.P", miercoles: "", jueves: "Body Zen / Zumba", viernes: "", sabado: "", domingo: "" },
   { time: "19:30 / 20:30", lunes: "Zumba", martes: "", miercoles: "Zumba", jueves: "", viernes: "", sabado: "", domingo: "" },
