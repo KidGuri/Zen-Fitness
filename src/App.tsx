@@ -153,9 +153,9 @@ const translations = {
     pricingBallroom: "Bailes de Salón",
     pricingBallroomPrice: "40€/mes",
     openingHoursTitle: "Horario del centro",
-    openingHoursWeekdays: "Lunes a Viernes: 7:45 a 22:00",
-    openingHoursSaturdays: "Sábados: 7:45 a 17:00",
-    openingHoursSundays: "Domingos: 7:45 a 12:00",
+    openingHoursWeekdays: "Lunes a Viernes: 8:00 a 22:00",
+    openingHoursSaturdays: "Sábados: 8:00 a 17:00",
+    openingHoursSundays: "Domingos: 8:00 a 12:00",
 
     // Salsa Bachata CTA
     salsaHeading: "Apúntate a Salsa y Bachata",
@@ -303,9 +303,9 @@ const translations = {
     pricingBallroom: "Ballroom dance",
     pricingBallroomPrice: "40€/mo",
     openingHoursTitle: "Opening hours",
-    openingHoursWeekdays: "Mon to Fri: 7:45 to 22:00",
-    openingHoursSaturdays: "Saturdays: 7:45 to 17:00",
-    openingHoursSundays: "Sundays: 7:45 to 12:00",
+    openingHoursWeekdays: "Mon to Fri: 8:00 to 22:00",
+    openingHoursSaturdays: "Saturdays: 8:00 to 17:00",
+    openingHoursSundays: "Sundays: 8:00 to 12:00",
 
     // Salsa Bachata CTA
     salsaHeading: "Sign up for Salsa & Bachata",
@@ -1147,9 +1147,9 @@ function About({ t }: { t: typeof translations.es }) {
 
 function Schedule({ t }: { t: typeof translations.es }) {
   const hours = [
-    { day: t.scheduleDay1, time: "7:45 – 22:00" },
-    { day: t.scheduleDay2, time: "7:45 – 17:00" },
-    { day: t.scheduleDay3, time: "7:45 – 12:00" },
+    { day: t.scheduleDay1, time: "8:00 – 22:00" },
+    { day: t.scheduleDay2, time: "8:00 – 17:00" },
+    { day: t.scheduleDay3, time: "8:00 – 12:00" },
   ];
 
   return (
