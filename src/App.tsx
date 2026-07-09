@@ -1839,7 +1839,7 @@ const PRICING_DATA = [
   { key: "pricingQuarterly" as const, price: "120€" },
   { key: "pricingSemester" as const, price: "220€" },
   { key: "pricingAnnual" as const, price: "375€" },
-  { key: "pricingBono" as const, price: "38€" },
+  { key: "pricingBono" as const, price: "42€" },
   { key: "pricingDay" as const, price: "7€" },
 ];
 
