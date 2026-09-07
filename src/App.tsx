@@ -1820,21 +1820,46 @@ function Gallery({ t }: { t: typeof translations.es }) {
   );
 }
 
-const CLASS_SCHEDULE_DATA = [
-  { time: "9:00 / 10:30", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "", domingo: "Salsa/Bachata N-0" },
-  { time: "9:30 / 10:30", lunes: "Funcional", martes: "", miercoles: "Funcional", jueves: "", viernes: "Baile", sabado: "", domingo: "" },
-  { time: "10:00 / 11:30", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "Capoeira", domingo: "" },
-  { time: "10:30", lunes: "", martes: "Pilates", miercoles: "", jueves: "Pilates", viernes: "", sabado: "", domingo: "Salsa/Bachata N-1 y N-2" },
-  { time: "11:30 / 13:00", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "Danzas Afro Brasileñas", domingo: "" },
-  { time: "16:30 / 17:30", lunes: "", martes: "Taekwondo -4", miercoles: "", jueves: "Taekwondo -4", viernes: "", sabado: "", domingo: "" },
-  { time: "17:30 / 18:30", lunes: "", martes: "Taekwondo +4", miercoles: "", jueves: "Taekwondo +4", viernes: "", sabado: "", domingo: "" },
-  { time: "17:30 / 19:00", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "Salsa/Bachata N-Alto", domingo: "" },
-  { time: "18:30 / 19:30", lunes: "Pilates", martes: "", miercoles: "Pilates", jueves: "", viernes: "", sabado: "", domingo: "" },
-  { time: "19:00", lunes: "", martes: "G.A.P", miercoles: "", jueves: "Body Zen / Zumba", viernes: "", sabado: "", domingo: "" },
-  { time: "19:30 / 20:30", lunes: "Zumba", martes: "", miercoles: "Zumba", jueves: "", viernes: "", sabado: "", domingo: "" },
-  { time: "20:00 / 21:00", lunes: "", martes: "Kyusho-Jitsu", miercoles: "", jueves: "Kyusho-Jitsu", viernes: "", sabado: "", domingo: "" },
-  { time: "20:30 / 21:30", lunes: "Karate", martes: "", miercoles: "Karate", jueves: "", viernes: "Karate", sabado: "", domingo: "" },
+const SCHEDULE_EVENTS = [
+  // Morning
+  { name: "Salsa/Bachata N-0", day: "domingo", start: [9, 0] as const, end: [10, 30] as const },
+  { name: "Funcional", day: "lunes", start: [9, 30] as const, end: [10, 30] as const },
+  { name: "Funcional", day: "miercoles", start: [9, 30] as const, end: [10, 30] as const },
+  { name: "Baile", day: "viernes", start: [9, 30] as const, end: [10, 30] as const },
+  { name: "Capoeira", day: "sabado", start: [10, 0] as const, end: [11, 30] as const },
+  { name: "Pilates", day: "martes", start: [10, 30] as const, end: [11, 30] as const },
+  { name: "Pilates", day: "jueves", start: [10, 30] as const, end: [11, 30] as const },
+  { name: "Salsa/Bachata N-1 y N-2", day: "domingo", start: [10, 30] as const, end: [11, 30] as const },
+  { name: "Danzas Afro Brasileñas", day: "sabado", start: [11, 30] as const, end: [13, 0] as const },
+  // Afternoon
+  { name: "Taekwondo -4", day: "martes", start: [16, 30] as const, end: [17, 30] as const },
+  { name: "Taekwondo -4", day: "jueves", start: [16, 30] as const, end: [17, 30] as const },
+  { name: "Taekwondo +4", day: "martes", start: [17, 30] as const, end: [18, 30] as const },
+  { name: "Taekwondo +4", day: "jueves", start: [17, 30] as const, end: [18, 30] as const },
+  { name: "Salsa/Bachata N-Alto", day: "sabado", start: [17, 30] as const, end: [19, 0] as const },
+  { name: "Pilates", day: "lunes", start: [18, 30] as const, end: [19, 30] as const },
+  { name: "Pilates", day: "miercoles", start: [18, 30] as const, end: [19, 30] as const },
+  { name: "G.A.P", day: "martes", start: [19, 0] as const, end: [20, 0] as const },
+  { name: "Body Zen / Zumba", day: "jueves", start: [19, 0] as const, end: [20, 0] as const },
+  { name: "Zumba", day: "lunes", start: [19, 30] as const, end: [20, 30] as const },
+  { name: "Zumba", day: "miercoles", start: [19, 30] as const, end: [20, 30] as const },
+  { name: "Kyusho-Jitsu", day: "martes", start: [20, 0] as const, end: [21, 0] as const },
+  { name: "Kyusho-Jitsu", day: "jueves", start: [20, 0] as const, end: [21, 0] as const },
+  { name: "Karate", day: "lunes", start: [20, 30] as const, end: [21, 30] as const },
+  { name: "Karate", day: "miercoles", start: [20, 30] as const, end: [21, 30] as const },
+  { name: "Karate", day: "viernes", start: [20, 30] as const, end: [21, 30] as const },
 ];
+
+// Grid row mapping: morning 9:00-13:00 → rows 2-9, break → row 10, afternoon 16:00-21:30 → rows 11-21
+function scheduleTimeToRow(h: number, m: number): number {
+  if (h < 14) return (h - 9) * 2 + m / 30 + 2;
+  return (h - 16) * 2 + m / 30 + 11;
+}
+
+const SCHEDULE_DAY_COL: Record<string, number> = {
+  lunes: 2, martes: 3, miercoles: 4, jueves: 5,
+  viernes: 6, sabado: 7, domingo: 8,
+};
 
 const PRICING_DATA = [
   { key: "pricingMonthly" as const, price: "44€" },
@@ -1846,15 +1871,41 @@ const PRICING_DATA = [
 ];
 
 function ClassSchedule({ t }: { t: typeof translations.es }) {
-  const dayKeys = [
-    { key: "dayLunes" as const, field: "lunes" as const },
-    { key: "dayMartes" as const, field: "martes" as const },
-    { key: "dayMiercoles" as const, field: "miercoles" as const },
-    { key: "dayJueves" as const, field: "jueves" as const },
-    { key: "dayViernes" as const, field: "viernes" as const },
-    { key: "daySabado" as const, field: "sabado" as const },
-    { key: "dayDomingo" as const, field: "domingo" as const },
+  const dayColumns = [
+    { key: "dayLunes" as const, col: 2 },
+    { key: "dayMartes" as const, col: 3 },
+    { key: "dayMiercoles" as const, col: 4 },
+    { key: "dayJueves" as const, col: 5 },
+    { key: "dayViernes" as const, col: 6 },
+    { key: "daySabado" as const, col: 7 },
+    { key: "dayDomingo" as const, col: 8 },
   ];
+
+  const SLOT_H = 44;
+  // Morning: rows 2-9 (9:00-13:00, 8 half-hour slots)
+  // Break: row 10
+  // Afternoon: rows 11-21 (16:00-21:30, 11 half-hour slots)
+  const morningSlots = Array.from({ length: 8 }, (_, i) => i + 2);
+  const afternoonSlots = Array.from({ length: 11 }, (_, i) => i + 11);
+  const allSlots = [...morningSlots, ...afternoonSlots];
+
+  const hourLabels = [
+    { label: "9:00", row: 2 }, { label: "10:00", row: 4 },
+    { label: "11:00", row: 6 }, { label: "12:00", row: 8 },
+    { label: "16:00", row: 11 }, { label: "17:00", row: 13 },
+    { label: "18:00", row: 15 }, { label: "19:00", row: 17 },
+    { label: "20:00", row: 19 }, { label: "21:00", row: 21 },
+  ];
+
+  // Bottom border at full-hour boundaries
+  const isHourLine = (row: number) => {
+    if (row >= 2 && row <= 9) return row % 2 === 1;
+    if (row >= 11 && row <= 21) return row % 2 === 0;
+    return false;
+  };
+
+  const fmt = (h: number, m: number) =>
+    `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 
   return (
     <section
@@ -1889,109 +1940,156 @@ function ClassSchedule({ t }: { t: typeof translations.es }) {
 
         <Reveal delay={0.15}>
           <div className="schedule-table-wrapper">
-            <table
+            <div
               style={{
-                width: "100%",
+                display: "grid",
+                gridTemplateColumns: "72px repeat(7, 1fr)",
+                gridTemplateRows: `auto repeat(8, ${SLOT_H}px) 28px repeat(11, ${SLOT_H}px)`,
                 minWidth: 800,
-                borderCollapse: "separate",
-                borderSpacing: 0,
                 background: "rgba(255,255,255,0.02)",
                 border: `1px solid rgba(160,136,77,0.15)`,
                 borderRadius: 2,
               }}
             >
-              <thead>
-                <tr>
-                  <th
+              {/* Header */}
+              <div
+                style={{
+                  gridRow: 1, gridColumn: 1,
+                  padding: "16px 8px",
+                  fontSize: 11, fontWeight: 700,
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  color: GOLD,
+                  borderBottom: `1px solid rgba(160,136,77,0.2)`,
+                  background: "#151209",
+                  position: "sticky", left: 0, zIndex: 4,
+                }}
+              >
+                {t.scheduleLabel}
+              </div>
+              {dayColumns.map((d) => (
+                <div
+                  key={d.key}
+                  style={{
+                    gridRow: 1, gridColumn: d.col,
+                    padding: "16px 8px",
+                    textAlign: "center",
+                    fontSize: 11, fontWeight: 700,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: GOLD,
+                    borderBottom: `1px solid rgba(160,136,77,0.2)`,
+                    background: "rgba(160,136,77,0.08)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {t[d.key]}
+                </div>
+              ))}
+
+              {/* Time column backgrounds (sticky on scroll) */}
+              {allSlots.map((row) => (
+                <div
+                  key={`tc-${row}`}
+                  style={{
+                    gridRow: row, gridColumn: 1,
+                    background: "#0d0d0d",
+                    borderBottom: isHourLine(row)
+                      ? "1px solid rgba(160,136,77,0.12)"
+                      : "1px solid rgba(255,255,255,0.03)",
+                    position: "sticky", left: 0, zIndex: 2,
+                  }}
+                />
+              ))}
+
+              {/* Hour labels */}
+              {hourLabels.map((h) => (
+                <div
+                  key={h.label}
+                  style={{
+                    gridRow: h.row, gridColumn: 1,
+                    fontSize: 13, fontWeight: 600,
+                    color: GOLD_LIGHT,
+                    padding: "4px 8px 0",
+                    position: "sticky", left: 0, zIndex: 3,
+                    pointerEvents: "none",
+                  }}
+                >
+                  {h.label}
+                </div>
+              ))}
+
+              {/* Day column grid cells (background lines) */}
+              {allSlots.flatMap((row) =>
+                dayColumns.map((d) => (
+                  <div
+                    key={`bg-${row}-${d.col}`}
                     style={{
-                      padding: "16px 12px",
-                      textAlign: "left",
-                      fontSize: 11,
-                      fontWeight: 700,
-                      letterSpacing: "0.15em",
-                      textTransform: "uppercase",
-                      color: GOLD,
-                      borderBottom: `1px solid rgba(160,136,77,0.2)`,
-                      background: "#151209",
-                      position: "sticky",
-                      left: 0,
-                      zIndex: 2,
+                      gridRow: row, gridColumn: d.col,
+                      borderBottom: isHourLine(row)
+                        ? "1px solid rgba(160,136,77,0.12)"
+                        : "1px solid rgba(255,255,255,0.03)",
+                    }}
+                  />
+                ))
+              )}
+
+              {/* Break separator */}
+              <div
+                style={{
+                  gridRow: 10, gridColumn: "1 / -1",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  background: "rgba(160,136,77,0.04)",
+                  borderTop: "1px solid rgba(160,136,77,0.1)",
+                  borderBottom: "1px solid rgba(160,136,77,0.1)",
+                }}
+              >
+                <span style={{ color: "rgba(255,255,255,0.15)", fontSize: 11, letterSpacing: 6 }}>
+                  · · ·
+                </span>
+              </div>
+
+              {/* Class event blocks */}
+              {SCHEDULE_EVENTS.map((evt, i) => {
+                const r0 = scheduleTimeToRow(evt.start[0], evt.start[1]);
+                const r1 = scheduleTimeToRow(evt.end[0], evt.end[1]);
+                return (
+                  <div
+                    key={`${evt.name}-${evt.day}-${i}`}
+                    style={{
+                      gridRow: `${r0} / ${r1}`,
+                      gridColumn: SCHEDULE_DAY_COL[evt.day],
+                      background: "rgba(160,136,77,0.10)",
+                      border: "1px solid rgba(160,136,77,0.22)",
+                      borderRadius: 4,
+                      margin: "2px 3px",
+                      padding: "4px 4px",
+                      display: "flex", flexDirection: "column",
+                      alignItems: "center", justifyContent: "center",
+                      zIndex: 1,
+                      overflow: "hidden",
+                      transition: "background 0.3s",
                     }}
                   >
-                    {t.scheduleLabel}
-                  </th>
-                  {dayKeys.map((d) => (
-                    <th
-                      key={d.key}
-                      style={{
-                        padding: "16px 8px",
-                        textAlign: "center",
-                        fontSize: 11,
-                        fontWeight: 700,
-                        letterSpacing: "0.12em",
-                        textTransform: "uppercase",
-                        color: GOLD,
-                        borderBottom: `1px solid rgba(160,136,77,0.2)`,
-                        background: "rgba(160,136,77,0.08)",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {t[d.key]}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {CLASS_SCHEDULE_DATA.map((row, i) => (
-                  <tr key={row.time}>
-                    <td
-                      style={{
-                        padding: "14px 12px",
-                        fontSize: 13,
-                        fontWeight: 600,
-                        color: GOLD_LIGHT,
-                        borderBottom:
-                          i < CLASS_SCHEDULE_DATA.length - 1
-                            ? "1px solid rgba(255,255,255,0.04)"
-                            : "none",
-                        whiteSpace: "nowrap",
-                        background: "#0d0d0d",
-                        position: "sticky",
-                        left: 0,
-                        zIndex: 1,
-                      }}
-                    >
-                      {row.time}
-                    </td>
-                    {dayKeys.map((d) => (
-                      <td
-                        key={d.key}
-                        style={{
-                          padding: "14px 8px",
-                          textAlign: "center",
-                          fontSize: 12,
-                          fontWeight: row[d.field] ? 500 : 400,
-                          color: row[d.field]
-                            ? "rgba(255,255,255,0.85)"
-                            : "rgba(255,255,255,0.1)",
-                          borderBottom:
-                            i < CLASS_SCHEDULE_DATA.length - 1
-                              ? "1px solid rgba(255,255,255,0.04)"
-                              : "none",
-                          background: row[d.field]
-                            ? "rgba(160,136,77,0.06)"
-                            : "transparent",
-                          transition: "background 0.3s",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {row[d.field] || "—"}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    <span style={{
+                      fontSize: 11, fontWeight: 600,
+                      color: "rgba(255,255,255,0.88)",
+                      textAlign: "center", lineHeight: 1.3,
+                      wordBreak: "break-word",
+                    }}>
+                      {evt.name}
+                    </span>
+                    <span style={{
+                      fontSize: 9,
+                      color: "rgba(255,255,255,0.35)",
+                      marginTop: 1,
+                    }}>
+                      {fmt(evt.start[0], evt.start[1])}–{fmt(evt.end[0], evt.end[1])}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </Reveal>
 
