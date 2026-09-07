@@ -1823,7 +1823,9 @@ function Gallery({ t }: { t: typeof translations.es }) {
 const CLASS_SCHEDULE_DATA = [
   { time: "9:00 / 10:30", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "", domingo: "Salsa/Bachata N-0" },
   { time: "9:30 / 10:30", lunes: "Funcional", martes: "", miercoles: "Funcional", jueves: "", viernes: "Baile", sabado: "", domingo: "" },
+  { time: "10:00 / 11:30", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "Capoeira", domingo: "" },
   { time: "10:30", lunes: "", martes: "Pilates", miercoles: "", jueves: "Pilates", viernes: "", sabado: "", domingo: "Salsa/Bachata N-1 y N-2" },
+  { time: "11:30 / 13:00", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "Danzas Afro Brasileñas", domingo: "" },
   { time: "16:30 / 17:30", lunes: "", martes: "Taekwondo -4", miercoles: "", jueves: "Taekwondo -4", viernes: "", sabado: "", domingo: "" },
   { time: "17:30 / 18:30", lunes: "", martes: "Taekwondo +4", miercoles: "", jueves: "Taekwondo +4", viernes: "", sabado: "", domingo: "" },
   { time: "17:30 / 19:00", lunes: "", martes: "", miercoles: "", jueves: "", viernes: "", sabado: "Salsa/Bachata N-Alto", domingo: "" },
