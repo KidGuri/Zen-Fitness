@@ -2072,17 +2072,17 @@ function ClassSchedule({ t }: { t: typeof translations.es }) {
                     }}
                   >
                     <span style={{
-                      fontSize: 11, fontWeight: 600,
-                      color: "rgba(255,255,255,0.88)",
+                      fontSize: 13, fontWeight: 600,
+                      color: "#fff",
                       textAlign: "center", lineHeight: 1.3,
                       wordBreak: "break-word",
                     }}>
                       {evt.name}
                     </span>
                     <span style={{
-                      fontSize: 9,
-                      color: "rgba(255,255,255,0.35)",
-                      marginTop: 1,
+                      fontSize: 11, fontWeight: 500,
+                      color: GOLD,
+                      marginTop: 2,
                     }}>
                       {fmt(evt.start[0], evt.start[1])}–{fmt(evt.end[0], evt.end[1])}
                     </span>
